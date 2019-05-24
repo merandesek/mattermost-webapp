@@ -13,7 +13,6 @@ import {getClosestValidPostIndex} from 'utils/post_utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import NewMessageIndicator from './new_message_indicator.jsx';
-import FloatingTimestamp from './floating_timestamp.jsx';
 import PostListRow from './post_list_row';
 import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 
@@ -53,7 +52,7 @@ export default class PostList extends React.PureComponent {
         /**
          * The channel the posts are in
          */
-        channel: PropTypes.object.isRequired,
+        channel: PropTypes.object,
 
         /**
          * The last time the channel was viewed, sets the new message separator
@@ -116,7 +115,6 @@ export default class PostList extends React.PureComponent {
         this.loadingMorePosts = false;
         this.extraPagesLoaded = 0;
 
-        const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         const isMobile = Utils.isMobile();
         this.state = {
             atEnd: false,
@@ -127,9 +125,6 @@ export default class PostList extends React.PureComponent {
             isMobile,
             atBottom: true,
             unViewedCount: 0,
-            postListIds: [channelIntroMessage],
-            postsObjById: {channelIntroMessage},
-            floatingTimestampDate: 0,
             postMenuOpened: false,
             dynamicListStyle: {
                 willChange: 'transform',
@@ -355,23 +350,6 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    updateFloatingTimestamp = (visibleTopItem) => {
-        if (!this.state.isMobile) {
-            return;
-        }
-        if (this.props.posts) {
-            const postIndex = getClosestValidPostIndex(this.state.postListIds, visibleTopItem);
-            const postId = this.state.postListIds[postIndex];
-            const topPostInView = this.props.posts.find((post) => post.id === postId);
-            const floatingTimestampDate = topPostInView ? Utils.getDateForUnixTicks(topPostInView.create_at) : 0;
-            if (floatingTimestampDate !== this.state.floatingTimestampDate) {
-                this.setState({
-                    floatingTimestampDate,
-                });
-            }
-        }
-    }
-
     checkBottom = (visibleStartIndex) => {
         if (visibleStartIndex === 0) {
             if (!this.state.atBottom) {
@@ -392,7 +370,6 @@ export default class PostList extends React.PureComponent {
         visibleStartIndex,
         visibleStopIndex,
     }) => {
-        this.updateFloatingTimestamp(visibleStopIndex);
         this.checkBottom(visibleStartIndex);
     }
 
@@ -480,11 +457,6 @@ export default class PostList extends React.PureComponent {
             <div id='post-list'>
                 {this.state.isMobile && (
                     <React.Fragment>
-                        <FloatingTimestamp
-                            isScrolling={this.state.isScrolling}
-                            isMobile={true}
-                            createAt={this.state.floatingTimestampDate}
-                        />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
                             atBottom={this.state.atBottom}

@@ -5,7 +5,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {shallow} from 'enzyme';
 
-import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
@@ -41,7 +40,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
@@ -64,7 +63,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
@@ -87,12 +86,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
         expect(wrapper.find('.item-actions').find(Link).exists()).toBe(true);
-        expect(wrapper.find('.item-actions').find(DeleteIntegration).exists()).toBe(true);
     });
 
     test('Should have the same name and description on view as it has in incomingWebhook', () => {
@@ -111,7 +109,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
@@ -136,7 +134,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
@@ -159,7 +157,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );
@@ -182,7 +180,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square',
+                    name: 'p2c',
                 }}
             />
         );

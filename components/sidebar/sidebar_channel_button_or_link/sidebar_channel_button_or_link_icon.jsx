@@ -10,7 +10,6 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
-import StatusIcon from 'components/status_icon.jsx';
 import BotIcon from 'components/svg/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
@@ -53,13 +52,6 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
             } else if (this.props.teammateId && this.props.teammateIsBot) {
                 icon = (
                     <BotIcon className='icon icon__bot'/>
-                );
-            } else {
-                icon = (
-                    <StatusIcon
-                        type='avatar'
-                        status={this.props.channelStatus}
-                    />
                 );
             }
         }

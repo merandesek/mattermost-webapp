@@ -37,7 +37,7 @@ jest.mock('selectors/local_storage', () => ({
 
 describe('channel view actions', () => {
     const channel1 = {id: 'channelid1', name: 'channel1', display_name: 'Channel 1', type: 'O', team_id: 'teamid1'};
-    const townsquare = {id: 'channelid2', name: General.DEFAULT_CHANNEL, display_name: 'Town Square', type: 'O', team_id: 'teamid1'};
+    const p2c = {id: 'channelid2', name: General.DEFAULT_CHANNEL, display_name: 'P2C', type: 'O', team_id: 'teamid1'};
     const gmChannel = {id: 'gmchannelid', name: 'gmchannel', display_name: 'GM Channel 1', type: 'G'};
     const team1 = {id: 'teamid1', name: 'team1'};
 
@@ -54,7 +54,7 @@ describe('channel view actions', () => {
             },
             channels: {
                 currentChannelId: 'channelid1',
-                channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
+                channels: {channelid1: channel1, channelid2: p2c, gmchannelid: gmChannel},
                 myMembers: {gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'}},
             },
             general: {
@@ -77,13 +77,7 @@ describe('channel view actions', () => {
             store.dispatch(Actions.switchToChannel(channel1));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
         });
-
-        test('switch to fake direct channel', async () => {
-            await store.dispatch(Actions.switchToChannel({fake: true, userId: 'userid2', name: 'username2'}));
-            expect(openDirectChannelToUserId).toHaveBeenCalledWith('userid2');
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/messages/@username2`);
-        });
-
+        
         test('switch to gm channel', async () => {
             await store.dispatch(Actions.switchToChannel(gmChannel));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${gmChannel.name}`);
@@ -93,13 +87,13 @@ describe('channel view actions', () => {
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
             await store.dispatch(Actions.leaveChannel('channelid'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/p2c`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid');
         });
     });
 
     describe('goToLastViewedChannel', () => {
-        test('should switch to town square if last viewed channel is current channel', async () => {
+        test('should switch to P2C if last viewed channel is current channel', async () => {
             await store.dispatch(Actions.goToLastViewedChannel());
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${General.DEFAULT_CHANNEL}`);
         });

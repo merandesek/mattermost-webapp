@@ -120,8 +120,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.toAccountSettingsModalChannelSwitcher('user-1');
 
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        cy.visit('/ad-1/channels/p2c');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'P2C');
 
         // 3. Click the sidebar switcher button
         cy.get('#sidebarSwitcherButton').click();
@@ -149,8 +149,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.toAccountSettingsModalChannelSwitcher('user-1');
 
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        cy.visit('/ad-1/channels/p2c');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'P2C');
 
         // 3. Type CTRL/CMD+K
         cy.typeCmdOrCtrl().type('K', {release: true});

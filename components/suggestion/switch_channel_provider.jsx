@@ -460,10 +460,6 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.
-            sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.name);
-
         if (skipNotInChannel) {
             channels.push({
                 type: Constants.MENTION_MORE_CHANNELS,
@@ -473,7 +469,6 @@ export default class SwitchChannelProvider extends Provider {
 
         resultsCallback({
             matchedPretext: channelPrefix,
-            terms: channelNames,
             items: channels,
             component: ConnectedSwitchChannelSuggestion,
         });

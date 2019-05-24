@@ -27,6 +27,7 @@
 
             .post__body {
                 background: transparent !important;
+                padding: 5em;
             }
         }
 
@@ -38,16 +39,17 @@
 
         .post__body {
             width: 100%;
+            padding: 25px;
         }
 
         &.post--compact {
             .post__body {
-                padding-left: 0;
+                padding: 25px;
             }
 
             &.same--root {
                 &.post--comment {
-                    padding-left: 1em;
+                    padding: 25px;
 
                     .post__header {
                         margin-left: 0;
@@ -135,8 +137,6 @@
 }
 
 .post-right-header {
-    border-bottom: $border-gray;
-    color: #999;
     font-size: 1em;
     font-weight: 400;
     height: 39px;
@@ -145,7 +145,6 @@
 }
 
 .post-right-root-container {
-    border-bottom: $border-gray;
     padding: 5px 10px;
 
     ul {

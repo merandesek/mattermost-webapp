@@ -7,7 +7,6 @@ import React from 'react';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 
 const USERS_PER_PAGE = 50;
@@ -109,7 +108,6 @@ export default class MemberListChannel extends React.PureComponent {
     }
 
     render() {
-        const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
             <SearchableUserList
                 users={this.props.usersToDisplay}
@@ -117,7 +115,6 @@ export default class MemberListChannel extends React.PureComponent {
                 total={this.props.totalChannelMembers}
                 nextPage={this.nextPage}
                 search={this.handleSearch}
-                actions={channelIsArchived ? [] : [ChannelMembersDropdown]}
                 actionUserProps={this.props.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
             />

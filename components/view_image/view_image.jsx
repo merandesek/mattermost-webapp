@@ -3,17 +3,17 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
+import { Modal } from 'react-bootstrap';
+import { getFilePreviewUrl, getFileUrl, getFileDownloadUrl } from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import Constants, {FileTypes} from 'utils/constants';
+import Constants, { FileTypes } from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import {AsyncComponent} from 'components/async_load.jsx';
+import { AsyncComponent } from 'components/async_load.jsx';
 import loadPDFPreview from 'bundle-loader?lazy!components/pdf_preview';
 
 import ImagePreview from './image_preview';
@@ -133,10 +133,10 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     showImage = (id) => {
-        this.setState({imageIndex: id});
+        this.setState({ imageIndex: id });
 
         const imageHeight = window.innerHeight - 100;
-        this.setState({imageHeight});
+        this.setState({ imageHeight });
 
         if (!this.state.loaded[id]) {
             this.loadImage(id);
@@ -196,11 +196,11 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onMouseEnterImage = () => {
-        this.setState({showFooter: true});
+        this.setState({ showFooter: true });
     }
 
     onMouseLeaveImage = () => {
-        this.setState({showFooter: false});
+        this.setState({ showFooter: false });
     }
 
     render() {
@@ -292,7 +292,7 @@ export default class ViewImageModal extends React.PureComponent {
                     href='#'
                     onClick={this.handlePrev}
                 >
-                    <i className='image-control image-prev'/>
+                    <i className='image-control image-prev' />
                 </a>
             );
 
@@ -304,7 +304,7 @@ export default class ViewImageModal extends React.PureComponent {
                     href='#'
                     onClick={this.handleNext}
                 >
-                    <i className='image-control image-next'/>
+                    <i className='image-control image-next' />
                 </a>
             );
         }
@@ -327,6 +327,7 @@ export default class ViewImageModal extends React.PureComponent {
                         onClick={this.props.onModalDismissed}
                     >
                         <div
+                            className={'modal-image-close_container'}
                             onMouseEnter={this.onMouseEnterImage}
                             onMouseLeave={this.onMouseLeaveImage}
                             onClick={(e) => e.stopPropagation()}
@@ -335,9 +336,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 className={closeButtonClass}
                                 onClick={this.props.onModalDismissed}
                             />
-                            <div className='modal-image__content'>
-                                {content}
-                            </div>
+                            {content}
                             <PopoverBar
                                 show={this.state.showFooter}
                                 showPublicLink={showPublicLink}
@@ -350,10 +349,14 @@ export default class ViewImageModal extends React.PureComponent {
                                 isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />
+
+                            {leftArrow}
+                            {rightArrow}
+
+
                         </div>
                     </div>
-                    {leftArrow}
-                    {rightArrow}
+
                 </Modal.Body>
             </Modal>
         );

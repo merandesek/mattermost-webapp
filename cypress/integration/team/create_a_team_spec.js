@@ -40,11 +40,11 @@ describe('Teams Suite', () => {
         // 7. Click finish button
         cy.get('#teamURLFinishButton').should('be.visible').click();
 
-        // * Should redirect ot Town Square channel
-        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
+        // * Should redirect ot P2C channel
+        cy.get('#channelHeaderTitle').should('contain', 'P2C');
 
         // * check url is correct
-        cy.url().should('include', teamURL + '/channels/town-square');
+        cy.url().should('include', teamURL + '/channels/p2c');
 
         // * Team name should displays correctly at top of LHS
         cy.get('#headerTeamName').should('contain', 'Team Test');

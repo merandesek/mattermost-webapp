@@ -18,10 +18,10 @@ describe('MM-13697 Edit Post with attachment', () => {
 
     it('Pasted text should be pasted where the cursor is', () => {
         // 2. Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').scrollIntoView();
+        cy.get('#sidebarItem_p2c').scrollIntoView();
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', '/ad-1/channels/p2c');
 
         // 3. Attach image
         cy.uploadFile('#fileUploadButton input', '../fixtures/mattermost-icon.png', 'image/png');

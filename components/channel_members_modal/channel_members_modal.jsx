@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import MemberListChannel from 'components/member_list_channel';
-import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalIdentifiers} from 'utils/constants';
 
 export default class ChannelMembersModal extends React.PureComponent {
@@ -51,18 +50,6 @@ export default class ChannelMembersModal extends React.PureComponent {
         this.props.onHide();
     }
 
-    onAddNewMembersButton = () => {
-        const {channel, actions} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogType: ChannelInviteModal,
-            dialogProps: {channel},
-        });
-
-        this.handleExit();
-    }
-
     render() {
         const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
@@ -81,19 +68,6 @@ export default class ChannelMembersModal extends React.PureComponent {
                                 defaultMessage=' Members'
                             />
                         </Modal.Title>
-                        {this.props.canManageChannelMembers && !channelIsArchived &&
-                            <a
-                                id='showInviteModal'
-                                className='btn btn-md btn-primary'
-                                href='#'
-                                onClick={this.onAddNewMembersButton}
-                            >
-                                <FormattedMessage
-                                    id='channel_members_modal.addNew'
-                                    defaultMessage=' Add New Members'
-                                />
-                            </a>
-                        }
                     </Modal.Header>
                     <Modal.Body>
                         <MemberListChannel

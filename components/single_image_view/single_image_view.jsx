@@ -22,9 +22,6 @@ export default class SingleImageView extends React.PureComponent {
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
         isEmbedVisible: PropTypes.bool,
-        actions: PropTypes.shape({
-            toggleEmbedVisibility: PropTypes.func.isRequired,
-        }).isRequired,
     };
 
     static defaultProps = {
@@ -78,10 +75,6 @@ export default class SingleImageView extends React.PureComponent {
         this.setState({showPreviewModal: false});
     }
 
-    toggleEmbedVisibility = () => {
-        this.props.actions.toggleEmbedVisibility(this.props.postId);
-    }
-
     render() {
         const {fileInfo} = this.props;
         const {
@@ -107,19 +100,8 @@ export default class SingleImageView extends React.PureComponent {
             }
         }
 
-        const toggle = (
-            <a
-                key='toggle'
-                className='post__embed-visibility'
-                data-expanded={this.props.isEmbedVisible}
-                aria-label='Toggle Embed Visibility'
-                onClick={this.toggleEmbedVisibility}
-            />
-        );
-
         const fileHeader = (
             <div className='image-name'>
-                {toggle}
                 <div onClick={this.handleImageClick}>
                     {fileInfo.name}
                 </div>
@@ -141,7 +123,7 @@ export default class SingleImageView extends React.PureComponent {
                 };
             } else {
                 imageContainerStyle = {
-                    height: 150,
+                    height: 300,
                     width: 'auto',
                 };
             }

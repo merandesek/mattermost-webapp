@@ -1,6 +1,5 @@
 @charset 'UTF-8';
 
-@media screen and (max-width: 1020px) {
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
@@ -51,9 +50,8 @@
             }
         }
     }
-}
 
-@media screen and (max-width: 960px) {
+
     .system-users__filter-row {
         flex-direction: column;
 
@@ -77,9 +75,9 @@
     .app__body {
         .modal {
             .modal-image {
-                .modal-image__wrapper {
+                .image__wrapper {
                     img {
-                        max-height: calc(100vh - 100px);
+                        max-height:  75%;
                     }
 
                     >div {
@@ -92,8 +90,8 @@
                     }
                 }
 
-                .modal-image__content {
-                    max-height: 93vh;
+                .image__content {
+                    max-height: 75%;
                 }
 
                 .modal-button-bar {
@@ -166,9 +164,8 @@
             }
         }
     }
-}
 
-@media (min-width: 880px) {
+
     .post-collapse__show-more {
         padding-right: 60px;
     }
@@ -182,10 +179,8 @@
             padding-right: 0;
         }
     }
-}
 
-// Tablet and desktop
-@media screen and (min-width: 768px) {
+
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -469,26 +464,8 @@
 
                 .post__header {
                     float: left;
-
-                    .col__reply {
-                        top: -21px;
-                    }
-
-                    .post__pinned-badge {
-                        margin-right: 5px;
-                    }
                 }
 
-                &.post--pinned {
-                    .post__body {
-                        &:before {
-                            content: '';
-                            display: block;
-                            height: 21px;
-                            width: 1px;
-                        }
-                    }
-                }
 
                 &:not(.post--compact) {
                     .post__header {
@@ -506,17 +483,12 @@
                     .post__time {
                         display: inline-block;
                         font-size: 11px;
-                        left: -18px;
                         line-height: 20px;
                         position: absolute;
                         text-align: right;
                         text-rendering: auto;
-                        top: 4px;
+                        top: 3px;
                         width: 51px;
-
-                        .sidebar--right & {
-                            left: -20px;
-                        }
 
                         &:hover {
                             text-decoration: underline;
@@ -524,12 +496,5 @@
                     }
                 }
             }
-
-            &.post--comment:not(.post--compact) {
-                .post__pinned-badge {
-                    margin-left: 10px;
-                }
-            }
         }
     }
-}

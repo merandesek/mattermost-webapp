@@ -78,7 +78,7 @@ describe('at-mention', () => {
 
         // 2. Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_p2c').click({force: true});
 
         // 3. Get the current channelId
         cy.getCurrentChannelId().as('channelId');
@@ -105,8 +105,8 @@ describe('at-mention', () => {
         cy.get('@notifyStub').should((stub) => {
             const [title, opts] = stub.firstCall.args;
 
-            // * Verify notification is coming from Town Square
-            expect(title).to.equal('Town Square');
+            // * Verify notification is coming from P2C
+            expect(title).to.equal('P2C');
 
             const body = `@${this.sender.username}: ${message}`;
 
@@ -115,14 +115,14 @@ describe('at-mention', () => {
         });
 
         // * Verify unread mentions badge
-        cy.get('#sidebarItem_town-square').
+        cy.get('#sidebarItem_p2c').
             scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
 
         // 3. Go to the channel where you were messaged
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_p2c').click();
 
         // 4. Get last post message text
         cy.getLastPostIdWithRetry().then((postId) => {
@@ -154,13 +154,13 @@ describe('at-mention', () => {
         cy.get('@notifyStub').should('be.not.called');
 
         // * Verify unread mentions badge does not exist
-        cy.get('#sidebarItem_town-square').
+        cy.get('#sidebarItem_p2c').
             scrollIntoView().
             find('#unreadMentions').
             should('be.not.visible');
 
         // 3. Go to the channel where you were messaged
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_p2c').click();
 
         // 4. Get last post message text
         cy.getLastPostIdWithRetry().then((postId) => {

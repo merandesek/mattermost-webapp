@@ -255,15 +255,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         browserHistory.push(redirectTo);
     });
 }
-
-export function toggleSideBarRightMenuAction() {
-    return (doDispatch) => {
-        doDispatch(closeRightHandSide());
-        doDispatch(closeLhs());
-        doDispatch(closeRhsMenu());
-    };
-}
-
 export function emitBrowserFocus(focus) {
     dispatch({
         type: ActionTypes.BROWSER_CHANGE_FOCUS,

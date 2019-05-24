@@ -11,7 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import MemberIcon from 'components/svg/member_icon';
 import TeamMembersModal from 'components/team_members_modal';
@@ -21,7 +20,6 @@ import PopoverListMembersItem from './popover_list_members_item';
 export default class PopoverListMembers extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
-        statuses: PropTypes.object.isRequired,
         users: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
@@ -29,7 +27,6 @@ export default class PopoverListMembers extends React.Component {
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             getProfilesInChannel: PropTypes.func.isRequired,
-            openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -40,7 +37,6 @@ export default class PopoverListMembers extends React.Component {
             showPopover: false,
             showTeamMembersModal: false,
             showChannelMembersModal: false,
-            showChannelInviteModal: false,
             sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
@@ -61,19 +57,6 @@ export default class PopoverListMembers extends React.Component {
         return Utils.sortUsersByStatusAndDisplayName(users, statuses);
     };
 
-    handleShowDirectChannel = (user) => {
-        const {actions} = this.props;
-        const teammateId = user.id;
-
-        if (teammateId) {
-            actions.openDirectChannelToUserId(teammateId).then(({data}) => {
-                if (data) {
-                    browserHistory.push(this.props.teamUrl + '/channels/' + data.name);
-                }
-                this.closePopover();
-            });
-        }
-    };
 
     closePopover = () => {
         this.setState({showPopover: false});
@@ -90,14 +73,6 @@ export default class PopoverListMembers extends React.Component {
 
     hideChannelMembersModal = () => {
         this.setState({showChannelMembersModal: false});
-    };
-
-    showChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: true});
-    };
-
-    hideChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: false});
     };
 
     hideTeamMembersModal = () => {
@@ -119,9 +94,6 @@ export default class PopoverListMembers extends React.Component {
         const items = this.state.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
-                onItemClick={this.handleShowDirectChannel}
-                showMessageIcon={this.props.currentUserId !== user.id && !isDirectChannel}
-                status={this.props.statuses[user.id]}
                 user={user}
             />
         ));
@@ -132,7 +104,7 @@ export default class PopoverListMembers extends React.Component {
             let membersName = (
                 <FormattedMessage
                     id='members_popover.manageMembers'
-                    defaultMessage='Manage Members'
+                    defaultMessage='All Members'
                 />
             );
 
@@ -181,7 +153,6 @@ export default class PopoverListMembers extends React.Component {
             channelMembersModal = (
                 <ChannelMembersModal
                     onHide={this.hideChannelMembersModal}
-                    showInviteModal={this.showChannelInviteModal}
                     channel={this.props.channel}
                 />
             );
@@ -192,16 +163,6 @@ export default class PopoverListMembers extends React.Component {
             teamMembersModal = (
                 <TeamMembersModal
                     onHide={this.hideTeamMembersModal}
-                />
-            );
-        }
-
-        let channelInviteModal;
-        if (this.state.showChannelInviteModal) {
-            channelInviteModal = (
-                <ChannelInviteModal
-                    onHide={this.hideChannelInviteModal}
-                    channel={this.props.channel}
                 />
             );
         }
@@ -270,7 +231,6 @@ export default class PopoverListMembers extends React.Component {
                 </Overlay>
                 {channelMembersModal}
                 {teamMembersModal}
-                {channelInviteModal}
             </div>
         );
     }

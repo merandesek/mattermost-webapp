@@ -19,39 +19,9 @@ export default class PostHeader extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-         * Function called when the comment icon is clicked
-         */
-        handleCommentClick: PropTypes.func.isRequired,
-
-        /*
-         * Function called when the post options dropdown is opened
-         */
-        handleDropdownOpened: PropTypes.func.isRequired,
-
-        /*
          * Set to render compactly
          */
         compactDisplay: PropTypes.bool,
-
-        /*
-         * The number of replies in the same thread as this post
-         */
-        replyCount: PropTypes.number,
-
-        /**
-         * Set to indicate that this is previous post was not a reply to the same thread
-         */
-        isFirstReply: PropTypes.bool,
-
-        /**
-         * Set to mark post as being hovered over
-         */
-        hover: PropTypes.bool.isRequired,
-
-        /*
-         * Set to render the post time when not hovering
-         */
-        showTimeWithoutHover: PropTypes.bool,
 
         /**
          * Whether or not the post username can be overridden.
@@ -148,13 +118,6 @@ export default class PostHeader extends React.PureComponent {
                 <div className='col'>
                     <PostInfo
                         post={post}
-                        handleCommentClick={this.props.handleCommentClick}
-                        handleDropdownOpened={this.props.handleDropdownOpened}
-                        compactDisplay={this.props.compactDisplay}
-                        replyCount={this.props.replyCount}
-                        isFirstReply={this.props.isFirstReply}
-                        showTimeWithoutHover={this.props.showTimeWithoutHover}
-                        hover={this.props.hover}
                     />
                 </div>
             </div>

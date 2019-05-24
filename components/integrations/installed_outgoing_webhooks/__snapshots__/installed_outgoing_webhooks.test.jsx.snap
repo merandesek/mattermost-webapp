@@ -63,9 +63,9 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     canChange={true}
     channel={
       Object {
-        "display_name": "town-square",
+        "display_name": "p2c",
         "id": "mdpzfpfcxi85zkkqkzkch4b85h",
-        "name": "town-square",
+        "name": "p2c",
       }
     }
     creator={
@@ -113,9 +113,9 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     canChange={true}
     channel={
       Object {
-        "display_name": "town-square",
+        "display_name": "p2c",
         "id": "mdpzfpfcxi85zkkqkzkch4b85h",
-        "name": "town-square",
+        "name": "p2c",
       }
     }
     creator={

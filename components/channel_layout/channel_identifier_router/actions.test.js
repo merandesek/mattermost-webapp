@@ -5,15 +5,11 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {joinChannel} from 'mattermost-redux/actions/channels';
-import {getUserByEmail} from 'mattermost-redux/actions/users';
 
 import {emitChannelClickEvent} from 'actions/global_actions.jsx';
 import {
     goToChannelByChannelName,
-    goToDirectChannelByUserId,
-    goToDirectChannelByUserIds,
     goToChannelByChannelId,
-    goToDirectChannelByEmail,
 } from 'components/channel_layout/channel_identifier_router/actions';
 
 jest.mock('actions/global_actions.jsx', () => ({
@@ -90,62 +86,6 @@ describe('Actions', () => {
             await testStore.dispatch(goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3'}}, {}));
             expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', null, 'achannel3');
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
-        });
-    });
-
-    describe('goToDirectChannelByUserId', () => {
-        test('switch to a direct channel by user id on the same team', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByUserId({params: {team: 'team1'}}, history, 'user_id2'));
-            expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
-        });
-
-        test('switch to a direct channel by user id on different team', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByUserId({params: {team: 'team2'}}, history, 'user_id2'));
-            expect(history.replace).toHaveBeenCalledWith('/team2/messages/@user2');
-        });
-    });
-
-    describe('goToDirectChannelByUserIds', () => {
-        test('switch to a direct channel by name on the same team', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByUserIds({params: {team: 'team1', identifier: 'current_user_id__user_id2'}}, history));
-            expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
-        });
-
-        test('switch to a direct channel by name on different team', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByUserIds({params: {team: 'team2', identifier: 'current_user_id__user_id2'}}, history));
-            expect(history.replace).toHaveBeenCalledWith('/team2/messages/@user2');
-        });
-    });
-
-    describe('goToDirectChannelByEmail', () => {
-        test('switch to a direct channel by email with user already existing locally', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user2@bladekick.com'}}, history));
-            expect(getUserByEmail).not.toHaveBeenCalled();
-            expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
-        });
-
-        test('switch to a direct channel by email with user not existing locally', async () => {
-            const testStore = await mockStore(initialState);
-            const history = {replace: jest.fn()};
-
-            await testStore.dispatch(goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user3@bladekick.com'}}, history));
-            expect(getUserByEmail).toHaveBeenCalledWith('user3@bladekick.com');
-            expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user3');
         });
     });
 });

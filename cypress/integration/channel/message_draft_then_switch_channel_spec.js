@@ -17,15 +17,15 @@ describe('Message Draft and Switch Channels', () => {
     it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {
         // 1. In a test channel, type some text in the message input box
         // 2. Do not send the post
-        cy.get('#sidebarItem_town-square').scrollIntoView();
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_p2c').scrollIntoView();
+        cy.get('#sidebarItem_p2c').should('be.visible').click();
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/channels/town-square');
+        cy.url().should('include', '/channels/p2c');
 
         // * Validate if the draft icon is not visible on the sidebar before making a draft
-        cy.get('#sidebarItem_town-square').scrollIntoView();
-        cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
+        cy.get('#sidebarItem_p2c').scrollIntoView();
+        cy.get('#sidebarItem_p2c #draftIcon').should('be.not.visible');
 
         // Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('message draft test');
@@ -51,11 +51,11 @@ describe('Message Draft and Switch Channels', () => {
         cy.get('#suggestionList').should('be.visible');
 
         //* Validate if the draft icon is visible to left of the channel name in the filtered list
-        cy.get('#switchChannel_town-square #draftIcon').should('be.visible');
+        cy.get('#switchChannel_p2c #draftIcon').should('be.visible');
 
         //* Escape channel switcher and reset post textbox for test channel
         cy.get('.close').click();
-        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('p2c');
     });
 });
 

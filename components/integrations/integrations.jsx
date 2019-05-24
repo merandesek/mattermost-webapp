@@ -156,30 +156,6 @@ export default class Integrations extends React.Component {
             );
         }
 
-        options.push(
-            <SystemPermissionGate
-                permissions={['manage_bots']}
-                key='botsPermissions'
-            >
-                <IntegrationOption
-                    image={BotAccountsIcon}
-                    title={
-                        <FormattedMessage
-                            id='bots.manage.header'
-                            defaultMessage='Bot Accounts'
-                        />
-                    }
-                    description={
-                        <FormattedMessage
-                            id='bots.manage.description'
-                            defaultMessage='Use bot accounts to integrate with Mattermost through plugins or the API'
-                        />
-                    }
-                    link={'/' + this.props.team.name + '/integrations/bots'}
-                />
-            </SystemPermissionGate>
-        );
-
         return (
             <div className='backstage-content row'>
                 <div className='backstage-header'>

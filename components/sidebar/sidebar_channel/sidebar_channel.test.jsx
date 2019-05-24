@@ -60,8 +60,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         currentTeamName: 'current-team',
         currentUserId: 'user-id',
         showTutorialTip: false,
-        townSquareDisplayName: 'Town Square',
-        offTopicDisplayName: 'Off-Topic',
+        p2cDisplayName: 'P2C',
+        offTopicDisplayName: 'general',
         membersCount: 8,
         showUnreadForMsgs: true,
         shouldHideChannel: false,
@@ -159,7 +159,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelId: 'test',
             channelName: Constants.DEFAULT_CHANNEL,
             channelType: Constants.OPEN_CHANNEL,
-            channelDisplayName: 'Town Square',
+            channelDisplayName: 'P2C',
         };
         const wrapper = shallow(<SidebarChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -382,7 +382,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         wrapper.instance().handleLeaveDirectChannel();
         expect(savePreferences).toBeCalledWith('user-id', [{user_id: 'user-id', category: Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: 'test-channel-id', value: 'false'}]);
         expect(trackEvent).toBeCalledWith('ui', 'ui_direct_channel_x_button_clicked');
-        expect(browserHistory.push).toBeCalledWith('/current-team/channels/town-square');
+        expect(browserHistory.push).toBeCalledWith('/current-team/channels/p2c');
         expect(props.actions.openLhs).not.toBeCalled();
     });
 

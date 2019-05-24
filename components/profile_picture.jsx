@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import ProfilePopover from 'components/profile_popover';
-import StatusIcon from 'components/status_icon';
-
 export default class ProfilePicture extends React.PureComponent {
     static defaultProps = {
         width: '36',
@@ -28,9 +25,6 @@ export default class ProfilePicture extends React.PureComponent {
         hasMention: PropTypes.bool,
     };
 
-    hideProfilePopover = () => {
-        this.refs.overlay.hide();
-    }
 
     render() {
         if (this.props.userId) {
@@ -40,16 +34,6 @@ export default class ProfilePicture extends React.PureComponent {
                     trigger='click'
                     placement='right'
                     rootClose={true}
-                    overlay={
-                        <ProfilePopover
-                            userId={this.props.userId}
-                            src={this.props.src}
-                            isBusy={this.props.isBusy}
-                            hide={this.hideProfilePopover}
-                            isRHS={this.props.isRHS}
-                            hasMention={this.props.hasMention}
-                        />
-                    }
                 >
                     <span className='status-wrapper'>
                         <img
@@ -59,7 +43,6 @@ export default class ProfilePicture extends React.PureComponent {
                             height={this.props.width}
                             src={this.props.src}
                         />
-                        <StatusIcon status={this.props.status}/>
                     </span>
                 </OverlayTrigger>
             );
@@ -73,7 +56,6 @@ export default class ProfilePicture extends React.PureComponent {
                     height={this.props.width}
                     src={this.props.src}
                 />
-                <StatusIcon status={this.props.status}/>
             </span>
         );
     }

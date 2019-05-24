@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
-import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -96,7 +95,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     async loadShortenedImageLink() {
-        if (this.state.link && !this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link) && this.props.enableLinkPreviews) {
+        if (this.state.link && !this.isLinkImage(this.state.link)) {
             const {data} = await this.props.actions.getRedirectLocation(this.state.link);
             const {link} = this.state;
             if (data && data.location && this.mounted) {
@@ -187,10 +186,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return false;
         }
 
-        if (YoutubeVideo.isYoutubeLink(link)) {
-            return true;
-        }
-
         if (this.isLinkImage(link)) {
             return true;
         }
@@ -216,17 +211,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         const link = this.state.link;
         if (!link) {
             return null;
-        }
-
-        if (YoutubeVideo.isYoutubeLink(link)) {
-            return (
-                <YoutubeVideo
-                    channelId={this.props.post.channel_id}
-                    link={link}
-                    show={this.props.isEmbedVisible}
-                    onLinkLoaded={this.handleLinkLoaded}
-                />
-            );
         }
 
         if (this.isLinkImage(link)) {
@@ -317,14 +301,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             );
 
             const contents = [message];
-
-            if (this.state.linkLoaded || YoutubeVideo.isYoutubeLink(this.state.link)) {
-                if (prependToggle) {
-                    contents.unshift(toggle);
-                } else {
-                    contents.push(toggle);
-                }
-            }
 
             if (this.props.isEmbedVisible) {
                 contents.push(

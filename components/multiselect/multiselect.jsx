@@ -8,7 +8,6 @@ import ReactSelect from 'react-select';
 
 import {Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
 
@@ -319,14 +318,6 @@ export default class MultiSelect extends React.Component {
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
-                        />
-                        <SaveButton
-                            id='saveItems'
-                            saving={this.props.saving}
-                            disabled={this.props.saving}
-                            onClick={this.handleOnClick}
-                            defaultMessage={buttonSubmitText}
-                            savingMessage={this.props.buttonSubmitLoadingText}
                         />
                     </div>
                     <div className='multi-select__help'>

@@ -2,21 +2,12 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
-import {getEmojiMap} from 'selectors/emojis';
-import store from 'stores/redux_store.jsx';
 
-import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
-const punctuation = XRegExp.cache('[^\\pL\\d]');
-
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]*)/gi;
-const UNICODE_EMOJI_REGEX = emojiRegex();
-const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
 // http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
@@ -31,7 +22,6 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
 // - mentionKeys - A list of mention keys for the current user to highlight.
 // - singleline - Specifies whether or not to remove newlines. Defaults to false.
-// - emoticons - Enables emoticon parsing with a data-emoticon attribute. Defaults to true.
 // - markdown - Enables markdown parsing. Defaults to true.
 // - siteURL - The origin of this Mattermost instance. If provided, links to channels and posts will be replaced with internal
 //     links that can be handled by a special click handler.
@@ -74,10 +64,6 @@ export function formatText(text, inputOptions) {
         output = replaceNewlines(output);
     }
 
-    if (htmlEmojiPattern.test(output.trim())) {
-        output = '<span class="all-emoji">' + output.trim() + '</span>';
-    }
-
     return output;
 }
 
@@ -96,24 +82,12 @@ export function doFormatText(text, options) {
         output = autolinkChannelMentions(output, tokens, options.channelNamesMap, options.team);
     }
 
-    output = autolinkEmails(output, tokens);
-    output = autolinkHashtags(output, tokens, options.minimumHashtagLength);
-
-    if (!('emoticons' in options) || options.emoticon) {
-        output = Emoticons.handleEmoticons(output, tokens);
-    }
-
     if (options.searchPatterns) {
         output = highlightSearchTerms(output, tokens, options.searchPatterns);
     }
 
     if (!('mentionHighlight' in options) || options.mentionHighlight) {
         output = highlightCurrentMentions(output, tokens, options.mentionKeys);
-    }
-
-    if (!('emoticons' in options) || options.emoticon) {
-        const emojiMap = getEmojiMap(store.getState());
-        output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 
     // reinsert tokens with formatted versions of the important words and phrases
@@ -131,35 +105,6 @@ export function sanitizeHtml(text) {
     output = output.replace(/>/g, '&gt;');
     output = output.replace(/'/g, '&apos;');
     output = output.replace(/"/g, '&quot;');
-
-    return output;
-}
-
-// Copied from our fork of commonmark.js
-var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
-var emailSpecialCharacters = '!#$%&\'*+\\-\\/=?^_`{|}~';
-var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
-var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
-var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
-var emailStartPattern = '(?:[' + emailValidCharacters + '](?:[' + emailValidCharacters + ']|\\.(?!\\.|@))*|\\"[' + emailValidRestrictedCharacters + '.]+\\")@';
-var reEmail = XRegExp.cache('(^|[^\\pL\\d])(' + emailStartPattern + '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))', 'g');
-
-// Convert emails into tokens
-function autolinkEmails(text, tokens) {
-    function replaceEmailWithToken(fullMatch, prefix, email) {
-        const index = tokens.size;
-        const alias = `$MM_EMAIL${index}$`;
-
-        tokens.set(alias, {
-            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
-            originalText: email,
-        });
-
-        return prefix + alias;
-    }
-
-    let output = text;
-    output = XRegExp.replace(text, reEmail, replaceEmailWithToken);
 
     return output;
 }
@@ -550,24 +495,4 @@ export function replaceTokens(text, tokens) {
 
 function replaceNewlines(text) {
     return text.replace(/\n/g, ' ');
-}
-
-export function handleUnicodeEmoji(text, supportedEmoji, searchPattern) {
-    let output = text;
-
-    // replace all occurances of unicode emoji with additional markup
-    output = output.replace(searchPattern, (emoji) => {
-        // convert unicode character to hex string
-        const emojiCode = emoji.codePointAt(0).toString(16);
-
-        // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (supportedEmoji.hasUnicode(emojiCode)) {
-            // build image tag to replace supported unicode emoji
-            return `<img class="emoticon" draggable="false" alt="${emoji}" src="${getEmojiImageUrl(supportedEmoji.getUnicode(emojiCode))}">`;
-        }
-
-        // wrap unsupported unicode emoji in span to style as needed
-        return `<span class="emoticon emoticon--unicode">${emoji}</span>`;
-    });
-    return output;
 }

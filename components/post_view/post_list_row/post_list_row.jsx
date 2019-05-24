@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
-import CreateChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {PostListRowListIds} from 'utils/constants';
 
 export default class PostListRow extends React.PureComponent {
@@ -50,16 +49,7 @@ export default class PostListRow extends React.PureComponent {
             return (
                 <NewMessageSeparator separatorId={listId}/>
             );
-        }
-
-        if (listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) {
-            return (
-                <CreateChannelIntroMessage
-                    channel={this.props.channel}
-                    fullWidth={this.props.fullWidth}
-                />
-            );
-        }
+        } 
 
         if (listId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES) {
             return (

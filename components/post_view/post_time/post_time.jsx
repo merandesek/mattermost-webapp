@@ -3,21 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router-dom';
-
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
-import {Locations} from 'utils/constants.jsx';
-import {isMobile as isMobileView} from 'utils/utils.jsx';
+import { Locations } from 'utils/constants.jsx';
 import LocalDateTime from 'components/local_date_time';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * If true, time will be rendered as a permalink to the post
-         */
-        isPermalink: PropTypes.bool.isRequired,
 
         /*
          * The time to display
@@ -38,37 +28,19 @@ export default class PostTime extends React.PureComponent {
         location: Locations.CENTER,
     };
 
-    handleClick = () => {
-        if (isMobileView()) {
-            GlobalActions.emitCloseRightHandSide();
-        }
-    };
-
     render() {
         const localDateTime = (
             <LocalDateTime
                 eventTime={this.props.eventTime}
             />
         );
-        if (isMobile() || !this.props.isPermalink) {
-            return localDateTime;
-        }
-
-        const {
-            location,
-            postId,
-            teamUrl,
-        } = this.props;
-
+        
         return (
-            <Link
-                id={`${location}_time_${postId}`}
-                to={`${teamUrl}/pl/${postId}`}
+            <div
                 className='post__permalink'
-                onClick={this.handleClick}
             >
                 {localDateTime}
-            </Link>
+            </div>
         );
     }
 }

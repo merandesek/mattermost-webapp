@@ -1,34 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+import { createSelector } from 'reselect';
+import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
+import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
+import { makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost } from 'mattermost-redux/selectors/entities/posts';
 import {
-    removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
 } from 'mattermost-redux/actions/posts';
-import {Posts} from 'mattermost-redux/constants';
-import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
+import { Posts } from 'mattermost-redux/constants';
+import { isPostPendingOrFailed } from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
-import {executeCommand} from 'actions/command';
-import {runMessageWillBePostedHooks} from 'actions/hooks';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import EmojiMap from 'utils/emoji_map';
-import {getPostDraft} from 'selectors/rhs';
+import { runMessageWillBePostedHooks } from 'actions/hooks';
+import { setGlobalItem, actionOnGlobalItemsWithPrefix } from 'actions/storage';
+import { getPostDraft } from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import { Constants, StoragePrefixes } from 'utils/constants.jsx';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
         if (value) {
-            return {...value, uploadsInProgress: []};
+            return { ...value, uploadsInProgress: [] };
         }
         return value;
     });
@@ -55,7 +51,7 @@ export function makeOnMoveHistoryIndex(rootId, direction) {
 
         const nextMessageInHistory = getMessageInHistory(getState());
 
-        dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
+        dispatch(updateCommentDraft(rootId, { ...draft, message: nextMessageInHistory }));
     };
 }
 
@@ -80,7 +76,7 @@ export function submitPost(channelId, rootId, draft) {
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
         if (hookResult.error) {
-            return {error: hookResult.error};
+            return { error: hookResult.error };
         }
 
         post = hookResult.data;
@@ -89,64 +85,16 @@ export function submitPost(channelId, rootId, draft) {
     };
 }
 
-export function submitReaction(postId, action, emojiName) {
-    return (dispatch) => {
-        if (action === '+') {
-            dispatch(PostActions.addReaction(postId, emojiName));
-        } else if (action === '-') {
-            dispatch(removeReaction(postId, emojiName));
-        }
-    };
-}
-
-export function submitCommand(channelId, rootId, draft) {
-    return async (dispatch, getState) => {
-        const state = getState();
-
-        const teamId = getCurrentTeamId(state);
-
-        const args = {
-            channel_id: channelId,
-            team_id: teamId,
-            root_id: rootId,
-            parent_id: rootId,
-        };
-
-        const {message} = draft;
-
-        const {error} = await dispatch(executeCommand(message, args));
-
-        if (error) {
-            if (error.sendMessage) {
-                await dispatch(submitPost(channelId, rootId, draft));
-            } else {
-                throw (error);
-            }
-        }
-    };
-}
-
 export function makeOnSubmit(channelId, rootId, latestPostId) {
     return (options = {}) => async (dispatch, getState) => {
         const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
-        const {message} = draft;
+        const { message } = draft;
 
         dispatch(addMessageIntoHistory(message));
 
         dispatch(updateCommentDraft(rootId, null));
 
-        const isReaction = Utils.REACTION_PATTERN.exec(message);
-
-        const emojis = getCustomEmojisByName(getState());
-        const emojiMap = new EmojiMap(emojis);
-
-        if (isReaction && emojiMap.has(isReaction[2])) {
-            dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
-        } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
-            await dispatch(submitCommand(channelId, rootId, draft));
-        } else {
-            dispatch(submitPost(channelId, rootId, draft));
-        }
+        dispatch(submitPost(channelId, rootId, draft));
     };
 }
 
@@ -190,27 +138,4 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
             return lastPost;
         }
     );
-}
-
-export function makeOnEditLatestPost(channelId, rootId) {
-    const getCurrentUsersLatestPost = makeGetCurrentUsersLatestPost(channelId, rootId);
-    const getCommentCount = makeGetCommentCountForPost();
-
-    return () => (dispatch, getState) => {
-        const state = getState();
-
-        const lastPost = getCurrentUsersLatestPost(state);
-
-        if (!lastPost) {
-            return {data: false};
-        }
-
-        return dispatch(PostActions.setEditingPost(
-            lastPost.id,
-            getCommentCount(state, {post: lastPost}),
-            'reply_textbox',
-            Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-            true
-        ));
-    };
 }

@@ -55,19 +55,19 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show with tutorial tip 1`] = `
 <li
   className=""
-  key="town-square"
+  key="p2c"
 >
   <SidebarChannelButtonOrLink
     badge={false}
     channelId="test"
     channelIsArchived={false}
-    channelName="town-square"
+    channelName="p2c"
     channelStatus="test"
     channelType="O"
-    displayName="Town Square"
+    displayName="P2C"
     handleClose={null}
     hasDraft={false}
-    link="/current-team/channels/town-square"
+    link="/current-team/channels/p2c"
     membersCount={8}
     rowClass="sidebar-item"
     teammateDeletedAt={1}
@@ -75,8 +75,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     unreadMentions={0}
   />
   <SidebarTutorialTip
-    offTopicDisplayName="Off-Topic"
-    townSquareDisplayName="Town Square"
+    offTopicDisplayName="general"
+    p2cDisplayName="P2C"
   />
 </li>
 `;
@@ -169,19 +169,19 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show 1`] = `
 <li
   className=""
-  key="town-square"
+  key="p2c"
 >
   <SidebarChannelButtonOrLink
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
-    channelName="town-square"
+    channelName="p2c"
     channelStatus="test"
     channelType="P"
     displayName="Channel display name"
     handleClose={null}
     hasDraft={false}
-    link="/current-team/channels/town-square"
+    link="/current-team/channels/p2c"
     membersCount={8}
     rowClass="sidebar-item"
     teammateDeletedAt={1}
@@ -194,19 +194,19 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show with enable X to close 1`] = `
 <li
   className=""
-  key="town-square"
+  key="p2c"
 >
   <SidebarChannelButtonOrLink
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
-    channelName="town-square"
+    channelName="p2c"
     channelStatus="test"
     channelType="O"
     displayName="Channel display name"
     handleClose={null}
     hasDraft={false}
-    link="/current-team/channels/town-square"
+    link="/current-team/channels/p2c"
     membersCount={8}
     rowClass="sidebar-item"
     teammateDeletedAt={1}

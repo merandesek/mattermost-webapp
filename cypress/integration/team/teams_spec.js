@@ -20,7 +20,7 @@ describe('Teams Suite', () => {
         cy.get('#headerTeamName').should('contain', 'eligendi');
 
         // * check the initialUrl
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', '/ad-1/channels/p2c');
 
         // 2. open the drop down menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -41,7 +41,7 @@ describe('Teams Suite', () => {
         cy.get('#headerTeamName').should('contain', 'eligendi');
 
         // * check the finalUrl
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', '/ad-1/channels/p2c');
     });
 
     it('TS13548 Team or System Admin searches and adds new team member', () => {
@@ -52,8 +52,8 @@ describe('Teams Suite', () => {
         const teamName = 'Stub team';
         const max = 9999;
         const teamURL = `stub-team-${getRandomInt(max).toString()}`;
-        const townSquareURL = `/${teamURL}/channels/town-square`;
-        const offTopicURL = `/${teamURL}/channels/off-topic`;
+        const p2cURL = `/${teamURL}/channels/p2c`;
+        const generalURL = `/${teamURL}/channels/general`;
 
         // 1. Login as System Admin
         cy.apiLogin('sysadmin');
@@ -83,10 +83,10 @@ describe('Teams Suite', () => {
         // 6. Click Add
         cy.get('#saveItems').click();
 
-        // * System message posts in Town Square and Off-Topic "[user2] added to the channel by [user1]"
-        cy.visit(townSquareURL);
+        // * System message posts in P2C and General "[user2] added to the channel by [user1]"
+        cy.visit(p2cURL);
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the team by you.`);
-        cy.visit(offTopicURL);
+        cy.visit(generalURL);
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
 
         // 7. Logout
@@ -98,10 +98,10 @@ describe('Teams Suite', () => {
         // * The added user sees the new team added to the team sidebar
         cy.get(`#${teamURL}TeamButton`).should('have.attr', 'href').should('contain', teamURL);
 
-        // * System message posts in Town Square and Off-Topic "[user2] added to the channel by [user1]"
-        cy.visit(townSquareURL);
+        // * System message posts in P2C and General "[user2] added to the channel by [user1]"
+        cy.visit(p2cURL);
         cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the team by @sysadmin.');
-        cy.visit(offTopicURL);
+        cy.visit(generalURL);
         cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the channel by @sysadmin.');
 
         // 9. Remove user from team

@@ -3,17 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Route, Switch} from 'react-router-dom';
-
-import Bots from 'components/integrations/bots';
-import AddBot from 'components/integrations/bots/add_bot';
+import { Route, Switch } from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
-import AnnouncementBar from 'components/announcement_bar';
-import SystemNotice from 'components/system_notice';
 import Integrations from 'components/integrations';
-import Emoji from 'components/emoji';
-import AddEmoji from 'components/emoji/add_emoji';
 import InstalledIncomingWebhooks from 'components/integrations/installed_incoming_webhooks';
 import AddIncomingWehook from 'components/integrations/add_incoming_webhook';
 import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook';
@@ -23,13 +16,12 @@ import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook';
 import InstalledOauthApps from 'components/integrations/installed_oauth_apps';
 import AddOauthApp from 'components/integrations/add_oauth_app';
 import EditOauthApp from 'components/integrations/edit_oauth_app';
-import CommandsContainer from 'components/integrations/commands_container';
 import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 import BackstageSidebar from './components/backstage_sidebar.jsx';
 import BackstageNavbar from './components/backstage_navbar';
 
-const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types
+const BackstageRoute = ({ component: Component, extraProps, ...rest }) => ( //eslint-disable-line react/prop-types
     <Route
         {...rest}
         render={(props) => (
@@ -62,12 +54,10 @@ export default class BackstageController extends React.Component {
         }).isRequired,
 
         siteName: PropTypes.string,
-        enableCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableCommands: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
     }
 
     scrollToTop = () => {
@@ -82,7 +72,7 @@ export default class BackstageController extends React.Component {
 
     render() {
         if (this.props.team == null || this.props.user == null) {
-            return <div/>;
+            return <div />;
         }
         const extraProps = {
             team: this.props.team,
@@ -91,13 +81,11 @@ export default class BackstageController extends React.Component {
         };
         return (
             <div className='backstage'>
-                <AnnouncementBar/>
-                <SystemNotice/>
                 <BackstageNavbar
                     team={this.props.team}
                     siteName={this.props.siteName}
                 />
-                <Pluggable pluggableName='Root'/>
+                <Pluggable pluggableName='Root' />
                 <div
                     className='backstage-body'
                     ref={this.setListRef}
@@ -105,12 +93,10 @@ export default class BackstageController extends React.Component {
                     <BackstageSidebar
                         team={this.props.team}
                         user={this.props.user}
-                        enableCustomEmoji={this.props.enableCustomEmoji}
                         enableIncomingWebhooks={this.props.enableIncomingWebhooks}
                         enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
                         enableCommands={this.props.enableCommands}
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
-                        canCreateOrDeleteCustomEmoji={this.props.canCreateOrDeleteCustomEmoji}
                     />
                     <Switch>
                         <BackstageRoute
@@ -153,11 +139,6 @@ export default class BackstageController extends React.Component {
                         />
                         <BackstageRoute
                             extraProps={extraProps}
-                            path={`${this.props.match.url}/commands`}
-                            component={CommandsContainer}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
                             exact={true}
                             path={`${this.props.match.url}/oauth2-apps`}
                             component={InstalledOauthApps}
@@ -176,32 +157,6 @@ export default class BackstageController extends React.Component {
                             extraProps={extraProps}
                             path={`${this.props.match.url}/confirm`}
                             component={ConfirmIntegration}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
-                            exact={true}
-                            path={'/:team/emoji'}
-                            component={Emoji}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
-                            path={`${this.props.match.url}/add`}
-                            component={AddEmoji}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
-                            path={`${this.props.match.url}/bots/add`}
-                            component={AddBot}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
-                            path={`${this.props.match.url}/bots/edit`}
-                            component={AddBot}
-                        />
-                        <BackstageRoute
-                            extraProps={extraProps}
-                            path={`${this.props.match.url}/bots`}
-                            component={Bots}
                         />
                     </Switch>
                 </div>

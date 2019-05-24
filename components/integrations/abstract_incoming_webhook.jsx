@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -243,21 +242,6 @@ export default class AbstractIncomingWebhook extends React.Component {
                                     defaultMessage='Channel'
                                 />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
-                                <ChannelSelect
-                                    id='channelId'
-                                    value={this.state.channelId}
-                                    onChange={this.updateChannelId}
-                                    selectOpen={true}
-                                    selectPrivate={true}
-                                />
-                                <div className='form__help'>
-                                    <FormattedMessage
-                                        id='add_incoming_webhook.channel.help'
-                                        defaultMessage='The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.'
-                                    />
-                                </div>
-                            </div>
                         </div>
                         <div className='form-group'>
                             <label

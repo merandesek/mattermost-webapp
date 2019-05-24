@@ -21,14 +21,6 @@ describe('Signup Email page', () => {
         cy.title().should('include', 'Mattermost');
     });
 
-    it('should match elements, back button', () => {
-        // * Check elements in the header with back button
-        cy.get('#back_button').should('be.visible');
-        cy.get('#back_button').should('contain', 'Back');
-        cy.get('#back_button_icon').should('be.visible');
-        cy.get('#back_button_icon').should('have.attr', 'title', 'Back Icon');
-    });
-
     it('should match elements, body', () => {
         // * Check elements in the body
         cy.get('#signup_email_section').should('be.visible');

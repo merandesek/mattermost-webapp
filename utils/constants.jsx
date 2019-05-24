@@ -80,7 +80,6 @@ export const Preferences = {
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
-    CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
     CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     EMAIL_INTERVAL: 'email_interval',
@@ -89,7 +88,6 @@ export const Preferences = {
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
-    CATEGORY_SYSTEM_NOTICE: 'system_notice',
 };
 
 export const ActionTypes = keyMirror({
@@ -106,14 +104,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_RHS_EXPANDED: null,
 
     UPDATE_MOBILE_VIEW: null,
-
-    SEARCH_FLAGGED_POSTS_REQUEST: null,
-    SEARCH_FLAGGED_POSTS_SUCCESS: null,
-    SEARCH_FLAGGED_POSTS_FAILURE: null,
-
-    SEARCH_PINNED_POSTS_REQUEST: null,
-    SEARCH_PINNED_POSTS_SUCCESS: null,
-    SEARCH_PINNED_POSTS_FAILURE: null,
 
     SET_NAVIGATION_BLOCKED: null,
     DEFER_NAVIGATION: null,
@@ -147,8 +137,6 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
-
-    INCREMENT_EMOJI_PICKER_PAGE: null,
 
     TOGGLE_LHS: null,
     OPEN_LHS: null,
@@ -245,7 +233,6 @@ export const SocketEvents = {
     HELLO: 'hello',
     REACTION_ADDED: 'reaction_added',
     REACTION_REMOVED: 'reaction_removed',
-    EMOJI_ADDED: 'emoji_added',
     PLUGIN_ENABLED: 'plugin_enabled',
     PLUGIN_DISABLED: 'plugin_disabled',
     LICENSE_CHANGED: 'license_changed',
@@ -437,8 +424,6 @@ export const AdvancedSections = {
 export const RHSStates = {
     MENTION: 'mention',
     SEARCH: 'search',
-    FLAG: 'flag',
-    PIN: 'pin',
 };
 
 export const UploadStatuses = {
@@ -516,9 +501,6 @@ export const PermissionsScope = {
     [Permissions.READ_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.REVOKE_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.MANAGE_JOBS]: 'system_scope',
-    [Permissions.CREATE_EMOJIS]: 'team_scope',
-    [Permissions.DELETE_EMOJIS]: 'team_scope',
-    [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -550,8 +532,6 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_CREATE_EMOJIS,
-        Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
     ],
@@ -675,10 +655,10 @@ export const Constants = {
     MOBILE_SCREEN_WIDTH: 768,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
-    DEFAULT_CHANNEL: 'town-square',
-    DEFAULT_CHANNEL_UI_NAME: 'Town Square',
-    OFFTOPIC_CHANNEL: 'off-topic',
-    OFFTOPIC_CHANNEL_UI_NAME: 'Off-Topic',
+    DEFAULT_CHANNEL: 'p2c',
+    DEFAULT_CHANNEL_UI_NAME: 'P2C',
+    OFFTOPIC_CHANNEL: 'general',
+    OFFTOPIC_CHANNEL_UI_NAME: 'General',
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',
@@ -733,10 +713,6 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     MAX_POST_LEN: 4000,
-    EMOJI_SIZE: 16,
-    DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
-    DEFAULT_EMOJI_PICKER_RIGHT_OFFSET: 15,
-    EMOJI_PICKER_WIDTH_OFFSET: 295,
     THEMES: {
         default: {
             type: 'Mattermost',
@@ -1207,8 +1183,6 @@ export const Constants = {
     MAX_TERMS_OF_SERVICE_TEXT_LENGTH: 16383,
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
     CHANNEL_SCROLL_ADJUSTMENT: 100,
-    EMOJI_PATH: '/static/emoji',
-    RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'https://push-test.mattermost.com',

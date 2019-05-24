@@ -12,8 +12,6 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text.jsx';
 
-import DeleteIntegration from '../delete_integration.jsx';
-
 const FAKE_SECRET = '***************';
 
 export default class InstalledOAuthApp extends React.PureComponent {
@@ -305,10 +303,6 @@ export default class InstalledOAuthApp extends React.PureComponent {
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegration
-                        messageId={t('installed_oauth_apps.delete.confirm')}
-                        onDelete={this.handleDelete}
-                    />
                 </div>
             </div>
         );

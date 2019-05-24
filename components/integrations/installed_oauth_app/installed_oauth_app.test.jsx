@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app.jsx';
-import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 
 describe('components/integrations/InstalledOAuthApp', () => {
     const FAKE_SECRET = '***************';
@@ -128,18 +127,5 @@ describe('components/integrations/InstalledOAuthApp', () => {
         wrapper.find('#regenerateSecretButton').simulate('click', {preventDefault: jest.fn()});
         expect(newOnRegenerateSecret).toBeCalled();
         expect(newOnRegenerateSecret).toHaveBeenCalledWith(oauthApp.id);
-    });
-
-    test('should have called props.onDelete on handleDelete ', () => {
-        const newOnDelete = jest.fn();
-        const props = {...baseProps, team, onDelete: newOnDelete};
-        const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
-        );
-
-        expect(wrapper.find(DeleteIntegration).exists()).toBe(true);
-        wrapper.find(DeleteIntegration).props().onDelete();
-        expect(newOnDelete).toBeCalled();
-        expect(newOnDelete).toHaveBeenCalledWith(oauthApp);
     });
 });

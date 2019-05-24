@@ -16,15 +16,15 @@ describe('Message Draft', () => {
 
     it('M13473 Message Draft - Pencil Icon', () => {
         // 1. Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').scrollIntoView();
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_p2c').scrollIntoView();
+        cy.get('#sidebarItem_p2c').should('be.visible').click();
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', '/ad-1/channels/p2c');
 
         // * Validate if the draft icon is not visible on the sidebar before making a draft
-        cy.get('#sidebarItem_town-square').scrollIntoView();
-        cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
+        cy.get('#sidebarItem_p2c').scrollIntoView();
+        cy.get('#sidebarItem_p2c #draftIcon').should('be.not.visible');
 
         //2. Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('comm');
@@ -37,6 +37,6 @@ describe('Message Draft', () => {
         cy.url().should('include', '/ad-1/channels/autem-2');
 
         //* Validate if the draft icon is visible on side bar on the previous channel with a draft
-        cy.get('#sidebarItem_town-square #draftIcon').should('be.visible');
+        cy.get('#sidebarItem_p2c #draftIcon').should('be.visible');
     });
 });

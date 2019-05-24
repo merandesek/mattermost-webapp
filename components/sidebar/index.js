@@ -24,7 +24,7 @@ import {openModal} from 'actions/views/modals';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 
-import Sidebar from './sidebar.jsx';
+import Sidebar from './sidebar';
 
 function mapStateToProps(state) {
     const config = getConfig(state);

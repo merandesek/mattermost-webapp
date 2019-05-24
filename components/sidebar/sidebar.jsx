@@ -13,25 +13,18 @@ import {SpringSystem, MathUtil} from 'rebound';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
+import {Constants, SidebarChannelGroups} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
-import MoreDirectChannels from 'components/more_direct_channels';
-import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
-import Pluggable from 'plugins/pluggable';
 
-import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
 import ChannelCreate from './channel_create';
 import ChannelMore from './channel_more';
 import ChannelName from './channel_name';
-import MorePublicDirectChannels from './more_public_direct_channels';
 
 export function renderView(props) {
     return (
@@ -153,12 +146,10 @@ export default class Sidebar extends React.PureComponent {
 
         this.isLeaving = new Map();
         this.isSwitchingChannel = false;
-        this.closedDirectChannel = false;
 
         this.state = {
             newChannelModalType: '',
             orderedChannelIds: props.orderedChannelIds,
-            showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
         };
@@ -192,13 +183,12 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        // if the active channel disappeared (which can happen when dm channels autoclose), go to p2c
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
             !this.channelIdIsDisplayedForProps(this.props.orderedChannelIds, this.props.currentChannel.id) &&
             this.channelIdIsDisplayedForProps(prevProps.orderedChannelIds, this.props.currentChannel.id)
         ) {
-            this.closedDirectChannel = true;
             redirectUserToDefaultTeam();
             return;
         }
@@ -210,11 +200,7 @@ export default class Sidebar extends React.PureComponent {
 
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            if (this.closedDirectChannel) {
-                this.closedDirectChannel = false;
-            } else {
-                this.props.actions.close();
-            }
+            this.props.actions.close();
         }
 
         this.updateTitle();
@@ -272,15 +258,6 @@ export default class Sidebar extends React.PureComponent {
             }
             return null;
         });
-    }
-
-    handleOpenMoreDirectChannelsModal = (e) => {
-        e.preventDefault();
-        if (this.state.showDirectChannelsModal) {
-            this.hideMoreDirectChannelsModal();
-        } else {
-            this.showMoreDirectChannelsModal();
-        }
     }
 
     updateTitle = () => {
@@ -390,75 +367,6 @@ export default class Sidebar extends React.PureComponent {
         }
     }
 
-    navigateChannelShortcut = (e) => {
-        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
-            e.preventDefault();
-
-            if (this.isSwitchingChannel) {
-                return;
-            }
-
-            this.isSwitchingChannel = true;
-            const allChannelIds = this.getDisplayedChannels(this.state.orderedChannelIds);
-            const curChannelId = this.props.currentChannel.id;
-            let curIndex = -1;
-            for (let i = 0; i < allChannelIds.length; i++) {
-                if (allChannelIds[i] === curChannelId) {
-                    curIndex = i;
-                }
-            }
-            let nextIndex = curIndex;
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-                nextIndex = curIndex + 1;
-            } else {
-                nextIndex = curIndex - 1;
-            }
-            const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            this.props.actions.switchToChannelById(nextChannelId);
-            this.updateScrollbarOnChannelChange(nextChannelId);
-
-            this.isSwitchingChannel = false;
-        } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            this.handleOpenMoreDirectChannelsModal(e);
-        }
-    };
-
-    navigateUnreadChannelShortcut = (e) => {
-        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
-            e.preventDefault();
-
-            if (this.isSwitchingChannel) {
-                return;
-            }
-
-            this.isSwitchingChannel = true;
-
-            const allChannelIds = this.getDisplayedChannels(this.state.orderedChannelIds);
-
-            let direction = 0;
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
-                direction = -1;
-            } else {
-                direction = 1;
-            }
-
-            const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel.id,
-                allChannelIds,
-                this.props.unreadChannelIds,
-                direction
-            );
-
-            if (nextIndex !== -1) {
-                const nextChannelId = allChannelIds[nextIndex];
-                this.props.actions.switchToChannelById(nextChannelId);
-                this.updateScrollbarOnChannelChange(nextChannelId);
-            }
-
-            this.isSwitchingChannel = false;
-        }
-    };
-
     getDisplayedChannels = (orderedChannelIds = []) => {
         return orderedChannelIds.reduce((allChannelIds, section) => {
             allChannelIds.push(...section.items);
@@ -476,17 +384,7 @@ export default class Sidebar extends React.PureComponent {
         return false;
     }
 
-    showMorePublicDirectChannelsModal = () => {
-        this.setState({showMorePublicChannelsModal: true});
-        trackEvent('ui', 'ui_channels_more_public_direct');
-    }
-
-    hideMorePublicDirectChannelsModal = () => {
-        this.setState({showMorePublicChannelsModal: false});
-    }
-
     onHandleNewChannel = () => {
-        this.hideMorePublicDirectChannelsModal();
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
@@ -513,23 +411,6 @@ export default class Sidebar extends React.PureComponent {
 
     hideNewChannelModal = () => {
         this.setState({newChannelModalType: ''});
-    }
-
-    showMoreDirectChannelsModal = () => {
-        trackEvent('ui', 'ui_channels_more_direct');
-        this.setState({showDirectChannelsModal: true});
-    }
-
-    hideMoreDirectChannelsModal = () => {
-        this.setState({showDirectChannelsModal: false});
-    }
-
-    openQuickSwitcher = (e) => {
-        e.preventDefault();
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.QUICK_SWITCH,
-            dialogType: QuickSwitchModal,
-        });
     }
 
     createSidebarChannel = (channelId) => {
@@ -589,7 +470,6 @@ export default class Sidebar extends React.PureComponent {
                                         <ChannelName
                                             sectionType={section.type}
                                             channelName={section.name}
-                                            browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
                                         <ChannelCreate
                                             sectionType={section.type}
@@ -597,8 +477,6 @@ export default class Sidebar extends React.PureComponent {
                                             canCreatePrivateChannel={this.props.canCreatePrivateChannel}
                                             createPublicChannel={this.showNewPublicChannelModal}
                                             createPrivateChannel={this.showNewPrivateChannelModal}
-                                            createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewPublicChannelModal}
                                         />
                                     </h4>
                                 </li>
@@ -606,8 +484,6 @@ export default class Sidebar extends React.PureComponent {
                                 <ChannelMore
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
-                                    moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
-                                    browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                 />
                             </ul>
                         );
@@ -618,8 +494,6 @@ export default class Sidebar extends React.PureComponent {
     };
 
     render() {
-        const {channelSwitcherOption} = this.props;
-
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
@@ -650,15 +524,6 @@ export default class Sidebar extends React.PureComponent {
             />
         );
 
-        let moreDirectChannelsModal;
-        if (this.state.showDirectChannelsModal) {
-            moreDirectChannelsModal = (
-                <MoreDirectChannels
-                    onModalDismissed={this.hideMoreDirectChannelsModal}
-                    isExistingChannel={false}
-                />
-            );
-        }
 
         let moreChannelsModal;
         if (this.state.showMoreChannelsModal) {
@@ -669,52 +534,6 @@ export default class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
-                />
-            );
-        }
-
-        let quickSwitchText = null;
-        if (channelSwitcherOption) {
-            let quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.windows');
-            let quickSwitchTextShortcutDefault = '- CTRL+K';
-            if (Utils.isMac()) {
-                quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.mac');
-                quickSwitchTextShortcutDefault = '- ⌘K';
-            }
-
-            const quickSwitchTextShortcut = (
-                <span className='switch__shortcut hidden-xs'>
-                    <FormattedMessage
-                        id={quickSwitchTextShortcutId}
-                        defaultMessage={quickSwitchTextShortcutDefault}
-                    />
-                </span>
-            );
-
-            quickSwitchText = (
-                <div className='sidebar__switcher'>
-                    <button
-                        id='sidebarSwitcherButton'
-                        className='btn btn-link'
-                        onClick={this.openQuickSwitcher}
-                    >
-                        <FormattedMessage
-                            id={'channel_switch_modal.title'}
-                            defaultMessage='Switch Channels'
-                        />
-                        {quickSwitchTextShortcut}
-                    </button>
-                </div>
-            );
-        }
-
-        let morePublicDirectChannelsModal;
-        if (this.state.showMorePublicChannelsModal) {
-            morePublicDirectChannelsModal = (
-                <MorePublicDirectChannels
-                    onModalDismissed={this.hideMorePublicDirectChannelsModal}
-                    handleNewChannel={this.onHandleNewChannel}
-                    isExistingChannel={false}
                 />
             );
         }
@@ -732,15 +551,7 @@ export default class Sidebar extends React.PureComponent {
                     channelType={this.state.newChannelModalType}
                     onModalDismissed={this.hideNewChannelModal}
                 />
-                {morePublicDirectChannelsModal}
-                {moreDirectChannelsModal}
                 {moreChannelsModal}
-
-                <SidebarHeader/>
-
-                <div className='sidebar--left__icons'>
-                    <Pluggable pluggableName='LeftSidebarHeader'/>
-                </div>
 
                 <div className='sidebar--left__list'>
                     <UnreadChannelIndicator
@@ -760,7 +571,6 @@ export default class Sidebar extends React.PureComponent {
 
                     {this.renderOrderedChannels()}
                 </div>
-                {quickSwitchText}
             </div>
         );
     }

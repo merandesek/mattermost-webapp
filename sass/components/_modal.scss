@@ -105,19 +105,6 @@
     color: alpha-color($black, .9);
     width: 100%;
 
-    .channel-switch-modal {
-        .modal-header {
-            background: transparent;
-            border: none;
-            min-height: 0;
-            padding: 0;
-
-            .close {
-                top: 10px;
-            }
-        }
-    }
-
     .modal--overflow {
         .modal-body {
             overflow: visible;
@@ -139,12 +126,10 @@
     }
 
     .custom-textarea {
-        border-color: $light-gray;
         color: inherit;
         padding: 12px 30px 12px 15px;
 
         &:focus {
-            border-color: $light-gray;
             box-shadow: none;
         }
     }
@@ -222,13 +207,11 @@
         @include border-radius(0);
         @include clearfix;
         background: alpha-color($black, .85);
-        border: 1px solid $light-gray;
         color: $white;
         min-height: 56px;
         padding: 14px 15px 11px;
 
         .modal-title {
-            color: $bg--gray;
             float: left;
             font-size: 17px;
             line-height: 27px;
@@ -349,13 +332,11 @@
 
         .modal-image__wrapper {
             @include border-radius(3px);
-            display: table-cell;
-            max-width: 90%;
             position: relative;
             text-align: center;
             vertical-align: middle;
             width: 100%;
-
+            height: 100%;
             &:hover {
                 @include border-radius(3px 3px 0 0);
             }
@@ -378,6 +359,10 @@
                 max-height: 85vh;
                 width: auto;
                 margin: 0 auto;
+            }
+
+            .modal-image-close_container{
+                background: #F3F3F3;
             }
 
             .modal-close {
@@ -427,7 +412,7 @@
                 max-height: 91vh;
                 max-width: 100%;
             }
-
+            
             .spinner {
                 .file__loading {
                     left: 50%;
@@ -439,11 +424,14 @@
                 }
             }
         }
-
+        
         .modal-content {
             background: alpha-color($black, 0);
             border: none;
             box-shadow: none;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
             height: 100%;
             padding: 0;
             width: 100%;
@@ -624,7 +612,6 @@
             width: 50%;
             text-align: center;
             border: none;
-            border-bottom: 2px $light-gray solid;
 
             &.active {
                 border-bottom: 2px $primary-color solid;
@@ -728,7 +715,6 @@
     }
 
     .more-modal__row {
-        border-bottom: 1px solid $light-gray;
         display: flex;
         padding: 10px 15px;
         align-items: center;
@@ -836,7 +822,6 @@
         }
         .team-name {
             padding-left: 5px;
-            color: $gray;
         }
         .icon__lock, .icon__globe {
             margin-right: 5px;
@@ -877,7 +862,6 @@
             width: 100%;
             text-align: center;
             font-size: 1.25em;
-            color: $gray;
             margin-top: 40px;
         }
         .filter-row--full {
@@ -910,7 +894,7 @@
         .MenuWrapper {
             position: static;
         }
-
+        
         .Menu {
             top: inherit;
             margin-right: 20px;

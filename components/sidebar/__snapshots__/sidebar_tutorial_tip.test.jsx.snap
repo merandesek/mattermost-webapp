@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, with p2c and with offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -25,12 +25,12 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
       <div>
         <h4>
           <FormattedMessage
-            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            defaultMessage="\\"{p2c}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
               Object {
                 "offtopic": "TestOffTopic",
-                "townsquare": "TestTownSquare",
+                "p2c": "Testp2c",
               }
             }
           />
@@ -44,11 +44,11 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
         </p>
         <p>
           <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            defaultMessage="**{p2c}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
               Object {
-                "townsquare": "TestTownSquare",
+                "p2c": "Testp2c",
               }
             }
           />
@@ -91,7 +91,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, with p2c and without offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -116,12 +116,12 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
       <div>
         <h4>
           <FormattedMessage
-            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            defaultMessage="\\"{p2c}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
               Object {
-                "offtopic": "Off-Topic",
-                "townsquare": "TestTownSquare",
+                "offtopic": "general",
+                "p2c": "Testp2c",
               }
             }
           />
@@ -135,11 +135,11 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
         </p>
         <p>
           <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            defaultMessage="**{p2c}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
               Object {
-                "townsquare": "TestTownSquare",
+                "p2c": "Testp2c",
               }
             }
           />
@@ -150,7 +150,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
             id="sidebar.tutorialScreen2.body3"
             values={
               Object {
-                "offtopic": "Off-Topic",
+                "offtopic": "general",
               }
             }
           />
@@ -182,7 +182,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, without p2c and with offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -207,12 +207,12 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
       <div>
         <h4>
           <FormattedMessage
-            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            defaultMessage="\\"{p2c}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
               Object {
                 "offtopic": "TestOffTopic",
-                "townsquare": "Town Square",
+                "p2c": "P2C",
               }
             }
           />
@@ -226,11 +226,11 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
         </p>
         <p>
           <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            defaultMessage="**{p2c}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
               Object {
-                "townsquare": "Town Square",
+                "p2c": "P2C",
               }
             }
           />
@@ -273,7 +273,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, without p2c and without offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -298,12 +298,12 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
       <div>
         <h4>
           <FormattedMessage
-            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            defaultMessage="\\"{p2c}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
               Object {
-                "offtopic": "Off-Topic",
-                "townsquare": "Town Square",
+                "offtopic": "general",
+                "p2c": "P2C",
               }
             }
           />
@@ -317,11 +317,11 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
         </p>
         <p>
           <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            defaultMessage="**{p2c}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
               Object {
-                "townsquare": "Town Square",
+                "p2c": "P2C",
               }
             }
           />
@@ -332,7 +332,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
             id="sidebar.tutorialScreen2.body3"
             values={
               Object {
-                "offtopic": "Off-Topic",
+                "offtopic": "general",
               }
             }
           />

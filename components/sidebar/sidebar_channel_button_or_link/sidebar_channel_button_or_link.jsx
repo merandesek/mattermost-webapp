@@ -3,11 +3,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
-import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
+import { browserHistory } from 'utils/browser_history';
+import { mark, trackEvent } from 'actions/diagnostics_actions.jsx';
+import { isDesktopApp } from 'utils/user_agent.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
@@ -34,16 +34,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
-    }
-
-    trackChannelSelectedEvent = () => {
-        mark('SidebarChannelLink#click');
-        trackEvent('ui', 'ui_channel_selected');
-    }
-
-    handleClick = () => {
-        this.trackChannelSelectedEvent();
-        browserHistory.push(this.props.link);
     }
 
     render = () => {
@@ -99,17 +89,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         {content}
                     </button>
                 </CopyUrlContextMenu>
-            );
-        } else {
-            element = (
-                <Link
-                    id={`sidebarItem_${this.props.channelName}`}
-                    to={this.props.link}
-                    className={this.props.rowClass}
-                    onClick={this.trackChannelSelectedEvent}
-                >
-                    {content}
-                </Link>
             );
         }
 

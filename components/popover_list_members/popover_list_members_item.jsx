@@ -4,10 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
 import {FormattedMessage} from 'react-intl';
 
-import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/svg/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -65,12 +63,6 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 className={'more-modal__row' + botClass}
                 onClick={this.handleClick}
             >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
-                    status={status}
-                    width='32'
-                    height='32'
-                />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
                         {name}

@@ -10,7 +10,6 @@ import {Constants} from 'utils/constants.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
-import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
 export default class SidebarChannel extends React.PureComponent {
     static propTypes = {
@@ -116,14 +115,9 @@ export default class SidebarChannel extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
 
         /**
-         * Set if the tutorial must be shown
+         * p2c (default channel) display name
          */
-        showTutorialTip: PropTypes.bool.isRequired,
-
-        /**
-         * TownSquare (default channel) display name
-         */
-        townSquareDisplayName: PropTypes.string,
+        p2cDisplayName: PropTypes.string,
 
         /**
          * OffTopic (default channel) display name
@@ -165,15 +159,8 @@ export default class SidebarChannel extends React.PureComponent {
         if (!this.isLeaving) {
             this.isLeaving = true;
 
-            let id;
-            let category;
-            if (this.props.channelType === Constants.DM_CHANNEL) {
-                id = this.props.channelTeammateId;
-                category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
-            } else {
-                id = this.props.channelId;
-                category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
-            }
+            let id = this.props.channelId;
+            let category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
 
             const currentUserId = this.props.currentUserId;
             this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
@@ -207,7 +194,7 @@ export default class SidebarChannel extends React.PureComponent {
             if (this.props.shouldHideChannel) {
                 return '';
             }
-            if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
+            if (this.props.channelType === Constants.GM_CHANNEL) {
                 closeHandler = this.handleLeaveDirectChannel;
             } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
                 if (this.props.channelType === Constants.OPEN_CHANNEL && this.props.channelName !== Constants.DEFAULT_CHANNEL) {
@@ -241,17 +228,6 @@ export default class SidebarChannel extends React.PureComponent {
 
         if (closeHandler && !badge) {
             rowClass += ' has-close';
-        }
-
-        let tutorialTip = null;
-        if (this.props.showTutorialTip && this.props.channelName === Constants.DEFAULT_CHANNEL) {
-            tutorialTip = (
-                <SidebarTutorialTip
-                    townSquareDisplayName={this.props.townSquareDisplayName}
-                    offTopicDisplayName={this.props.offTopicDisplayName}
-                />
-            );
-            this.props.actions.openLhs();
         }
 
         let link = '';
@@ -304,7 +280,6 @@ export default class SidebarChannel extends React.PureComponent {
                     teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
                 />
-                {tutorialTip}
             </li>
         );
     }

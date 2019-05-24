@@ -66,8 +66,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
-                        name: 'town-square',
-                        display_name: 'town-square',
+                        name: 'p2c',
+                        display_name: 'p2c',
                     },
                 }}
                 teamId={teamId}
@@ -111,8 +111,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
-                        name: 'town-square',
-                        display_name: 'town-square',
+                        name: 'p2c',
+                        display_name: 'p2c',
                     },
                 }}
                 teamId={teamId}
@@ -158,8 +158,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
-                        name: 'town-square',
-                        display_name: 'town-square',
+                        name: 'p2c',
+                        display_name: 'p2c',
                     },
                 }}
                 teamId={teamId}

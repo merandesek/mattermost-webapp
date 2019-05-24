@@ -259,8 +259,6 @@ var config = {
             template: 'root.html',
         }),
         new CopyWebpackPlugin([
-            {from: 'images/emoji', to: 'emoji'},
-            {from: 'images/img_trans.gif', to: 'images'},
             {from: 'images/logo-email.png', to: 'images'},
             {from: 'images/circles.png', to: 'images'},
             {from: 'images/favicon', to: 'images/favicon'},

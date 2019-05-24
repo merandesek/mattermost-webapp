@@ -78,7 +78,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Go to channel which has any posts
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_p2c').click();
 
         // * Validate if the post content in center channel is full width
         // by checking the exact class name.
@@ -115,7 +115,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Go to channel which has any posts
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_p2c').click();
 
         // * Validate if the post content in center channel is fixed and centered
         // by checking the exact class name.

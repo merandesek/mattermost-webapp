@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import SaveButton from 'components/save_button.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class LoginMfa extends React.PureComponent {
@@ -94,15 +93,6 @@ export default class LoginMfa extends React.PureComponent {
                             autoComplete='off'
                             autoFocus={true}
                             onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <SaveButton
-                            saving={this.state.saving}
-                            disabled={this.state.saving}
-                            onClick={this.handleSubmit}
-                            defaultMessage={localizeMessage('login_mfa.submit', 'Submit')}
-                            savingMessage={localizeMessage('login_mfa.submitting', 'Submitting...')}
                         />
                     </div>
                 </div>

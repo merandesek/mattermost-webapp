@@ -14,16 +14,16 @@ describe('Identical Message Drafts', () => {
         cy.visit('/');
 
         // 2. Clear channel textbox
-        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('p2c');
         cy.clearPostTextbox('autem-2');
     });
 
     it('M14432 shows Autocomplete in each channel', () => {
         // 3. Go to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_p2c').should('be.visible').click();
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/channels/town-square');
+        cy.url().should('include', '/channels/p2c');
 
         // 4. Start a draft in Channel A containing just "@"
         cy.get('#post_textbox').type('@');
@@ -46,17 +46,17 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // 7. Go back to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_p2c').should('be.visible').click();
 
         // * Validate if the channel has been opened
         // * At mention auto-complete is preserved in Channel A
-        cy.url().should('include', '/channels/town-square');
+        cy.url().should('include', '/channels/p2c');
         cy.get('#suggestionList').should('be.visible');
     });
 
     after(() => {
         // 8. Clear channel textbox
-        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('p2c');
         cy.clearPostTextbox('autem-2');
     });
 });

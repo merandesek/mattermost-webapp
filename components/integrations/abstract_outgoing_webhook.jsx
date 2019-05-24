@@ -3,12 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import { localizeMessage } from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 
@@ -177,7 +176,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
             icon_url: this.state.iconURL,
         };
 
-        this.props.action(hook).then(() => this.setState({saving: false}));
+        this.props.action(hook).then(() => this.setState({ saving: false }));
     }
 
     updateDisplayName = (e) => {
@@ -372,20 +371,6 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                     defaultMessage='Channel'
                                 />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
-                                <ChannelSelect
-                                    id='channelId'
-                                    value={this.state.channelId}
-                                    onChange={this.updateChannelId}
-                                    selectOpen={true}
-                                />
-                                <div className='form__help'>
-                                    <FormattedMessage
-                                        id='add_outgoing_webhook.channel.help'
-                                        defaultMessage='Public channel that delivers payload to webhook. Optional if at least one Trigger Word is specified.'
-                                    />
-                                </div>
-                            </div>
                         </div>
                         <div className='form-group'>
                             <label

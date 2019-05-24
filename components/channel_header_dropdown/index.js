@@ -23,7 +23,6 @@ import * as Utils from 'utils/utils';
 
 import Desktop from './channel_header_dropdown';
 import Items from './channel_header_dropdown_items';
-import Mobile from './mobile_channel_header_dropdown';
 
 const getTeammateId = createSelector(
     getCurrentChannel,
@@ -59,13 +58,6 @@ const mapStateToProps = (state) => ({
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || Constants.DEFAULT_CHANNEL,
 });
 
-const mobileMapStateToProps = (state) => ({
-    user: getCurrentUser(state),
-    channel: getCurrentChannel(state),
-    teammateId: getTeammateId(state),
-    teammateStatus: getTeammateStatus(state),
-});
 
 export const ChannelHeaderDropdown = Desktop;
 export const ChannelHeaderDropdownItems = connect(mapStateToProps)(Items);
-export const MobileChannelHeaderDropdown = connect(mobileMapStateToProps)(Mobile);

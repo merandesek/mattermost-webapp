@@ -3,29 +3,27 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {Link} from 'react-router-dom';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import {Client4} from 'mattermost-redux/client';
+import { Client4 } from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {browserHistory} from 'utils/browser_history';
+import { browserHistory } from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {showNotification} from 'utils/notifications.jsx';
-import {t} from 'utils/i18n.jsx';
+import { showNotification } from 'utils/notifications.jsx';
+import { t } from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';
 
 import SiteNameAndDescription from 'components/common/site_name_and_description';
-import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import SuccessIcon from 'components/icon/success_icon';
@@ -114,7 +112,7 @@ class LoginController extends React.Component {
                 // extra field in the querystring to signal the desktop app. And although eslint
                 // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
                 // eslint-disable-next-line react/no-did-mount-set-state
-                this.setState({sessionExpired: true});
+                this.setState({ sessionExpired: true });
                 search.set('extra', Constants.SESSION_EXPIRED);
                 browserHistory.replace(`${this.props.location.pathname}?${search}`);
             }
@@ -141,8 +139,8 @@ class LoginController extends React.Component {
                 id: 'login.session_expired.title',
                 defaultMessage: '* {siteName} - Session Expired',
             }, {
-                siteName: this.props.siteName,
-            });
+                    siteName: this.props.siteName,
+                });
         } else {
             document.title = this.props.siteName;
         }
@@ -182,7 +180,7 @@ class LoginController extends React.Component {
         // Discard any session expiry notice once the user interacts with the login page.
         this.onDismissSessionExpired();
 
-        const {location} = this.props;
+        const { location } = this.props;
         const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
         if (newQuery !== location.search) {
             browserHistory.replace(`${location.pathname}${newQuery}${location.hash}`);
@@ -194,7 +192,7 @@ class LoginController extends React.Component {
         if (this.refs.loginId) {
             loginId = this.refs.loginId.value;
             if (loginId !== this.state.loginId) {
-                this.setState({loginId});
+                this.setState({ loginId });
             }
         }
 
@@ -202,7 +200,7 @@ class LoginController extends React.Component {
         if (this.refs.password) {
             password = this.refs.password.value;
             if (password !== this.state.password) {
-                this.setState({password});
+                this.setState({ password });
             }
         }
 
@@ -259,9 +257,9 @@ class LoginController extends React.Component {
     }
 
     submit = (loginId, password, token) => {
-        this.setState({serverError: null, loading: true});
+        this.setState({ serverError: null, loading: true });
 
-        this.props.actions.login(loginId, password, token).then(async ({error}) => {
+        this.props.actions.login(loginId, password, token).then(async ({ error }) => {
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
@@ -289,9 +287,9 @@ class LoginController extends React.Component {
                         ),
                     });
                 } else if (!this.state.showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
-                    this.setState({showMfa: true});
+                    this.setState({ showMfa: true });
                 } else {
-                    this.setState({showMfa: false, serverError: error.message, loading: false});
+                    this.setState({ showMfa: false, serverError: error.message, loading: false });
                 }
 
                 return;
@@ -303,7 +301,7 @@ class LoginController extends React.Component {
             const inviteId = params.get('id') || '';
 
             if (inviteId || inviteToken) {
-                const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+                const { data: team } = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
                 if (team) {
                     this.finishSignin(team);
                 } else {
@@ -350,7 +348,7 @@ class LoginController extends React.Component {
     }
 
     handleBrandImageError = () => {
-        this.setState({brandImageError: true});
+        this.setState({ brandImageError: true });
     }
 
     createCustomLogin = () => {
@@ -358,7 +356,7 @@ class LoginController extends React.Component {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
             const brandImageUrl = Client4.getBrandImageUrl(0);
-            const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
+            const brandImageStyle = this.state.brandImageError ? { display: 'none' } : {};
 
             return (
                 <div>
@@ -368,7 +366,7 @@ class LoginController extends React.Component {
                         style={brandImageStyle}
                     />
                     <div>
-                        {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
+                        {messageHtmlToComponent(formattedText, false, { mentions: false, imagesMetadata: null })}
                     </div>
                 </div>
             );
@@ -421,7 +419,7 @@ class LoginController extends React.Component {
 
     onDismissSessionExpired = () => {
         LocalStorageStore.setWasLoggedIn(false);
-        this.setState({sessionExpired: false});
+        this.setState({ sessionExpired: false });
     }
 
     createExtraText = () => {
@@ -430,7 +428,7 @@ class LoginController extends React.Component {
         if (this.state.sessionExpired) {
             return (
                 <div className='alert alert-warning'>
-                    <WarningIcon/>
+                    <WarningIcon />
                     {' '}
                     <FormattedMessage
                         id='login.session_expired'
@@ -464,7 +462,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.TERMS_REJECTED) {
             return (
                 <div className='alert alert-warning'>
-                    <WarningIcon/>
+                    <WarningIcon />
                     <FormattedMarkdownMessage
                         id='login.terms_rejected'
                         defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
@@ -477,7 +475,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
             return (
                 <div className='alert alert-success'>
-                    <SuccessIcon/>
+                    <SuccessIcon />
                     <FormattedMessage
                         id='login.changed'
                         defaultMessage=' Sign-in method changed successfully'
@@ -487,7 +485,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.SIGNIN_VERIFIED) {
             return (
                 <div className='alert alert-success'>
-                    <SuccessIcon/>
+                    <SuccessIcon />
                     <FormattedMessage
                         id='login.verified'
                         defaultMessage=' Email Verified'
@@ -497,7 +495,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
             return (
                 <div className='alert alert-success'>
-                    <SuccessIcon/>
+                    <SuccessIcon />
                     <FormattedMessage
                         id='login.passwordChanged'
                         defaultMessage=' Password updated successfully'
@@ -568,7 +566,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={{id: 'login.password', defaultMessage: 'Password'}}
+                                placeholder={{ id: 'login.password', defaultMessage: 'Password' }}
                                 spellCheck='false'
                             />
                         </div>
@@ -669,7 +667,7 @@ class LoginController extends React.Component {
                     href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className='icon' />
                         <span>
                             <FormattedMessage
                                 id='login.gitlab'
@@ -689,7 +687,7 @@ class LoginController extends React.Component {
                     href={Client4.getOAuthRoute() + '/google/login' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className='icon' />
                         <span>
                             <FormattedMessage
                                 id='login.google'
@@ -709,7 +707,7 @@ class LoginController extends React.Component {
                     href={Client4.getOAuthRoute() + '/office365/login' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className='icon' />
                         <span>
                             <FormattedMessage
                                 id='login.office365'
@@ -765,7 +763,7 @@ class LoginController extends React.Component {
     }
 
     hideMfa = () => {
-        this.setState({showMfa: false});
+        this.setState({ showMfa: false });
     }
 
     render() {
@@ -776,13 +774,12 @@ class LoginController extends React.Component {
         } = this.props;
 
         if (initializing) {
-            return (<LoadingScreen/>);
+            return (<LoadingScreen />);
         }
 
         let content;
         let customContent;
         let customClass;
-        let backButton;
         if (this.state.showMfa) {
             content = (
                 <LoginMfa
@@ -791,7 +788,6 @@ class LoginController extends React.Component {
                     submit={this.submit}
                 />
             );
-            backButton = (<BackButton onClick={this.hideMfa}/>);
         } else {
             content = this.createLoginOptions();
             customContent = this.createCustomLogin();
@@ -801,28 +797,24 @@ class LoginController extends React.Component {
         }
 
         return (
-            <div>
-                <AnnouncementBar/>
-                {backButton}
-                <div
-                    id='login_section'
-                    className='col-sm-12'
-                >
-                    <div className={'signup-team__container ' + customClass}>
-                        <div className='signup__markdown'>
-                            {customContent}
-                        </div>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
+            <div
+                id='login_section'
+                className='col-sm-12'
+            >
+                <div className={'signup-team__container ' + customClass}>
+                    <div className='signup__markdown'>
+                        {customContent}
+                    </div>
+                    <img
+                        className='signup-team-logo'
+                        src={logoImage}
+                    />
+                    <div className='signup__content'>
+                        <SiteNameAndDescription
+                            customDescriptionText={customDescriptionText}
+                            siteName={siteName}
                         />
-                        <div className='signup__content'>
-                            <SiteNameAndDescription
-                                customDescriptionText={customDescriptionText}
-                                siteName={siteName}
-                            />
-                            {content}
-                        </div>
+                        {content}
                     </div>
                 </div>
             </div>

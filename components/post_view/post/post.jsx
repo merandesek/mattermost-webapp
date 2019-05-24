@@ -250,26 +250,12 @@ export default class Post extends React.PureComponent {
                     id='postContent'
                     className={'post__content ' + centerClass}
                 >
-                    <div className='post__img'>
-                        {profilePic}
-                    </div>
                     <div>
                         <PostHeader
                             post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            handleDropdownOpened={this.handleDropdownOpened}
-                            compactDisplay={this.props.compactDisplay}
-                            isFirstReply={this.props.isFirstReply}
-                            replyCount={this.props.replyCount}
-                            showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover}
                         />
                         <PostBody
                             post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            compactDisplay={this.props.compactDisplay}
-                            isCommentMention={this.props.isCommentMention}
-                            isFirstReply={this.props.isFirstReply}
                         />
                     </div>
                 </div>

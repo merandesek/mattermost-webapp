@@ -3,15 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
-import CommandProvider from 'components/suggestion/command_provider.jsx';
-import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import Constants from 'utils/constants.jsx';
@@ -32,10 +29,8 @@ export default class Textbox extends React.Component {
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
-        supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
         suggestionListStyle: PropTypes.string,
-        emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
@@ -50,7 +45,6 @@ export default class Textbox extends React.Component {
     };
 
     static defaultProps = {
-        supportsCommands: true,
         isRHS: false,
         listenForMentionKeyClick: false,
     };
@@ -68,12 +62,7 @@ export default class Textbox extends React.Component {
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
             }),
             new ChannelMentionProvider(),
-            new EmoticonProvider(),
         ];
-
-        if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider());
-        }
 
         this.checkMessageLength(props.value);
     }
@@ -142,12 +131,12 @@ export default class Textbox extends React.Component {
         e.preventDefault();
         e.target.blur();
         this.setState((prevState) => {
-            return {preview: !prevState.preview};
+            return { preview: !prevState.preview };
         });
     }
 
     hidePreview = () => {
-        this.setState({preview: false});
+        this.setState({ preview: false });
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -209,11 +198,11 @@ export default class Textbox extends React.Component {
                     {this.state.preview ? (
                         editHeader
                     ) : (
-                        <FormattedMessage
-                            id='textbox.preview'
-                            defaultMessage='Preview'
-                        />
-                    )}
+                            <FormattedMessage
+                                id='textbox.preview'
+                                defaultMessage='Preview'
+                            />
+                        )}
                 </a>
             );
         }
@@ -221,7 +210,7 @@ export default class Textbox extends React.Component {
         const helpText = (
             <div
                 id='helpText'
-                style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
+                style={{ visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0' }}
                 className='help__format-text'
             >
                 <b>
@@ -270,9 +259,7 @@ export default class Textbox extends React.Component {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
-        if (this.props.emojiEnabled) {
-            textboxClassName += ' custom-textarea--emoji-picker';
-        }
+
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
@@ -303,13 +290,12 @@ export default class Textbox extends React.Component {
                     className={textboxClassName}
                     spellCheck='true'
                     placeholder={this.props.createMessage}
-                    onChange={this.handleChange}
-                    onKeyPress={this.props.onKeyPress}
+                    onChange={this.handleChange} onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
-                    style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
+                    style={{ visibility: this.state.preview ? 'hidden' : 'visible' }}
                     inputComponent={AutosizeTextarea}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
@@ -322,24 +308,7 @@ export default class Textbox extends React.Component {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                 />
-                {preview}
-                <div className={'help__text ' + helpTextClass}>
-                    {helpText}
-                    {previewLink}
-                    <Link
-                        id='helpTextLink'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to='/help/messaging'
-                        className='textbox-help-link'
-                    >
-                        <FormattedMessage
-                            id='textbox.help'
-                            defaultMessage='Help'
-                        />
-                    </Link>
-                </div>
             </div>
-        );
+        )
     }
 }

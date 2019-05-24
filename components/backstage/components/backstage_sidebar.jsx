@@ -18,33 +18,11 @@ export default class BackstageSidebar extends React.Component {
         return {
             team: PropTypes.object.isRequired,
             user: PropTypes.object.isRequired,
-            enableCustomEmoji: PropTypes.bool.isRequired,
             enableIncomingWebhooks: PropTypes.bool.isRequired,
             enableOutgoingWebhooks: PropTypes.bool.isRequired,
             enableCommands: PropTypes.bool.isRequired,
             enableOAuthServiceProvider: PropTypes.bool.isRequired,
-            canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         };
-    }
-
-    renderCustomEmoji() {
-        if (!this.props.enableCustomEmoji || !this.props.canCreateOrDeleteCustomEmoji) {
-            return null;
-        }
-
-        return (
-            <BackstageCategory
-                name='emoji'
-                parentLink={'/' + this.props.team.name}
-                icon='fa-smile-o'
-                title={
-                    <FormattedMessage
-                        id='backstage_sidebar.emoji'
-                        defaultMessage='Custom Emoji'
-                    />
-                }
-            />
-        );
     }
 
     renderIntegrations() {
@@ -174,7 +152,6 @@ export default class BackstageSidebar extends React.Component {
         return (
             <div className='backstage-sidebar'>
                 <ul>
-                    {this.renderCustomEmoji()}
                     {this.renderIntegrations()}
                 </ul>
             </div>

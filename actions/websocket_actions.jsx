@@ -4,7 +4,6 @@
 import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
-    EmojiTypes,
     PostTypes,
     TeamTypes,
     UserTypes,
@@ -24,20 +23,17 @@ import {
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
+import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
-import {closeRightHandSide} from 'actions/views/rhs';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -51,7 +47,6 @@ import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
-import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
 const dispatch = store.dispatch;
@@ -234,24 +229,12 @@ function handleEvent(msg) {
         handleTeamAddedEvent(msg);
         break;
 
-    case SocketEvents.USER_ADDED:
-        handleUserAddedEvent(msg);
-        break;
-
-    case SocketEvents.USER_REMOVED:
-        handleUserRemovedEvent(msg);
-        break;
-
     case SocketEvents.USER_UPDATED:
         handleUserUpdatedEvent(msg);
         break;
 
     case SocketEvents.ROLE_ADDED:
         handleRoleAddedEvent(msg, dispatch, getState);
-        break;
-
-    case SocketEvents.ROLE_REMOVED:
-        handleRoleRemovedEvent(msg, dispatch, getState);
         break;
 
     case SocketEvents.MEMBERROLE_UPDATED:
@@ -316,10 +299,6 @@ function handleEvent(msg) {
 
     case SocketEvents.REACTION_REMOVED:
         handleReactionRemovedEvent(msg);
-        break;
-
-    case SocketEvents.EMOJI_ADDED:
-        handleAddEmoji(msg);
         break;
 
     case SocketEvents.CHANNEL_VIEWED:
@@ -604,48 +583,6 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
-    const state = getState();
-    const currentChannel = getCurrentChannel(state) || {};
-    const currentUserId = getCurrentUserId(state);
-
-    if (msg.broadcast.user_id === currentUserId) {
-        dispatch(loadChannelsForCurrentUser());
-
-        const rhsChannelId = getSelectedChannelId(state);
-        if (msg.data.channel_id === rhsChannelId) {
-            dispatch(closeRightHandSide());
-        }
-
-        if (msg.data.channel_id === currentChannel.id) {
-            if (msg.data.remover_id === msg.broadcast.user_id) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state));
-            } else {
-                const user = getUser(state, msg.data.remover_id) || {};
-
-                dispatch(openModal({
-                    modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
-                    dialogType: RemovedFromChannelModal,
-                    dialogProps: {
-                        channelName: currentChannel.display_name,
-                        remover: user.username,
-                    },
-                }));
-            }
-        }
-
-        dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
-    } else if (msg.broadcast.channel_id === currentChannel.id) {
-        dispatch(getChannelStats(currentChannel.id));
-        dispatch({
-            type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
-        });
-    }
-}
 
 function handleUserUpdatedEvent(msg) {
     const currentUser = getCurrentUser(getState());
@@ -790,20 +727,9 @@ function handleHelloEvent(msg) {
 function handleReactionAddedEvent(msg) {
     const reaction = JSON.parse(msg.data.reaction);
 
-    dispatch(getCustomEmojiForReaction(reaction.emoji_name));
-
     dispatch({
         type: PostTypes.RECEIVED_REACTION,
         data: reaction,
-    });
-}
-
-function handleAddEmoji(msg) {
-    const data = JSON.parse(msg.data.emoji);
-
-    dispatch({
-        type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
-        data,
     });
 }
 

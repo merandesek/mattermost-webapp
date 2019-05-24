@@ -12,7 +12,6 @@ import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
-import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -23,7 +22,6 @@ export default class ChannelView extends React.PureComponent {
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
         }).isRequired,
-        showTutorial: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -98,13 +96,6 @@ export default class ChannelView extends React.PureComponent {
 
     render() {
         const {channelIsArchived} = this.props;
-        if (this.props.showTutorial) {
-            return (
-                <TutorialView
-                    isRoot={false}
-                />
-            );
-        }
 
         let createPost;
         if (this.props.deactivatedChannel) {

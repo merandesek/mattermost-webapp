@@ -56,13 +56,9 @@
     @include flex-direction(column);
     background: $white;
     height: 100%;
-    margin-left: 220px;
-    padding-top: 50px;
+    width: 100%;
+    padding-top: 10px;
     position: relative;
-
-    .channel__wrap & {
-        padding-top: 0;
-    }
 }
 
 #archive-link-home {

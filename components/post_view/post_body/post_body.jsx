@@ -3,18 +3,16 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Posts} from 'mattermost-redux/constants';
+import { Posts } from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 
-import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
-import ReactionList from 'components/post_view/reaction_list';
 import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 
 const SENDING_ANIMATION_DELAY = 3000;
@@ -38,24 +36,9 @@ export default class PostBody extends React.PureComponent {
         parentPostUser: PropTypes.object,
 
         /**
-         * The function called when the comment icon is clicked
-         */
-        handleCommentClick: PropTypes.func.isRequired,
-
-        /**
          * Set to render post body compactly
          */
         compactDisplay: PropTypes.bool,
-
-        /**
-         * Set to highlight comment as a mention
-         */
-        isCommentMention: PropTypes.bool,
-
-        /**
-         * Set to render a preview of the parent post above this reply
-         */
-        isFirstReply: PropTypes.bool,
 
         /**
          * User's preference to link previews
@@ -94,12 +77,12 @@ export default class PostBody extends React.PureComponent {
             () => {
                 const post = this.props.post;
                 if (post && post.id === post.pending_post_id) {
-                    this.setState({sending: true});
+                    this.setState({ sending: true });
                 }
             }
         );
 
-        this.state = {sending: false};
+        this.state = { sending: false };
     }
 
     componentDidMount() {
@@ -117,30 +100,20 @@ export default class PostBody extends React.PureComponent {
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();
-            this.setState({sending: false});
+            this.setState({ sending: false });
         }
     }
 
     render() {
         const post = this.props.post;
-        const parentPost = this.props.parentPost;
 
-        let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
-        if (this.props.isFirstReply && parentPost && !isEphemeral) {
-            comment = (
-                <CommentedOn
-                    post={parentPost}
-                    onCommentClick={this.props.handleCommentClick}
-                />
-            );
-        }
 
         let failedOptions;
         if (this.props.post.failed) {
             postClass += ' post--fail';
-            failedOptions = <FailedPostOptions post={this.props.post}/>;
+            failedOptions = <FailedPostOptions post={this.props.post} />;
         }
 
         if (PostUtils.isEdited(this.props.post)) {
@@ -164,7 +137,7 @@ export default class PostBody extends React.PureComponent {
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                {this.state.sending && <LoadingBars/>}
+                {this.state.sending && <LoadingBars />}
                 <PostMessageView
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
@@ -190,30 +163,18 @@ export default class PostBody extends React.PureComponent {
             );
         }
 
-        let mentionHighlightClass = '';
-        if (this.props.isCommentMention) {
-            mentionHighlightClass = 'mention-comment';
-        }
-
         let ephemeralPostClass = '';
         if (isEphemeral) {
             ephemeralPostClass = 'post--ephemeral';
         }
 
         return (
-            <div>
-                {comment}
-                <div
-                    id={`${post.id}_message`}
-                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
-                >
-                    {messageWithAdditionalContent}
-                    {fileAttachmentHolder}
-                    <ReactionList
-                        post={post}
-                        isReadOnly={this.props.isReadOnly}
-                    />
-                </div>
+            <div
+                id={`${post.id}_message`}
+                className={`post__body $ ${ephemeralPostClass} ${postClass}`}
+            >
+                {messageWithAdditionalContent}
+                {fileAttachmentHolder}
             </div>
         );
     }

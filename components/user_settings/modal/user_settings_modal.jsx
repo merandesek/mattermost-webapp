@@ -18,46 +18,10 @@ import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
 import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
 
 const holders = defineMessages({
-    general: {
-        id: t('user.settings.modal.general'),
-        defaultMessage: 'General',
-    },
-    security: {
-        id: t('user.settings.modal.security'),
-        defaultMessage: 'Security',
-    },
     notifications: {
         id: t('user.settings.modal.notifications'),
         defaultMessage: 'Notifications',
-    },
-    display: {
-        id: t('user.settings.modal.display'),
-        defaultMessage: 'Display',
-    },
-    sidebar: {
-        id: t('user.settings.modal.sidebar'),
-        defaultMessage: 'Sidebar',
-    },
-    advanced: {
-        id: t('user.settings.modal.advanced'),
-        defaultMessage: 'Advanced',
-    },
-    checkEmail: {
-        id: 'user.settings.general.checkEmail',
-        defaultMessage: 'Check your email at {email} to verify the address. Cannot find the email?',
-    },
-    confirmTitle: {
-        id: t('user.settings.modal.confirmTitle'),
-        defaultMessage: 'Discard Changes?',
-    },
-    confirmMsg: {
-        id: t('user.settings.modal.confirmMsg'),
-        defaultMessage: 'You have unsaved changes, are you sure you want to discard them?',
-    },
-    confirmBtns: {
-        id: t('user.settings.modal.confirmBtns'),
-        defaultMessage: 'Yes, Discard',
-    },
+    }
 });
 
 class UserSettingsModal extends React.Component {
@@ -242,13 +206,8 @@ class UserSettingsModal extends React.Component {
             return (<div/>);
         }
         var tabs = [];
-
-        tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.general.icon', 'General Settings Icon')});
-        tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
+        
         tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
-        tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
-        tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
-        tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
 
         return (
             <Modal

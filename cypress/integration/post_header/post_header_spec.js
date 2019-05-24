@@ -17,7 +17,7 @@ describe('Post Header', () => {
 
     it('should render permalink view on click of post timestamp at center view', () => {
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit('/ad-1/channels/p2c');
 
         // 3. Post a message
         cy.postMessage('test for permalink{enter}');
@@ -49,7 +49,7 @@ describe('Post Header', () => {
             cy.get('#archive-link-home').click();
 
             // * Check that it redirects to channel URL
-            cy.url().should('include', '/ad-1/channels/town-square');
+            cy.url().should('include', '/ad-1/channels/p2c');
 
             // * Check the said post not highlighted
             cy.get(divPostId).should('be.visible').should('have.attr', 'class', 'post same--user same--root  current--user');
@@ -58,7 +58,7 @@ describe('Post Header', () => {
 
     it('should flag a post on click to flag icon at center view', () => {
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit('/ad-1/channels/p2c');
 
         // 3. Post a message
         cy.postMessage('test for flagged post{enter}');
@@ -83,7 +83,7 @@ describe('Post Header', () => {
 
     it('should open dropdown menu on click of dot menu icon', () => {
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit('/ad-1/channels/p2c');
 
         // 3. Post a message
         cy.postMessage('test for dropdown menu{enter}');
@@ -111,7 +111,7 @@ describe('Post Header', () => {
 
     it('should open and close Emoji Picker on click of reaction icon', () => {
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit('/ad-1/channels/p2c');
 
         // 3. Post a message
         cy.postMessage('test for reaction and emoji picker{enter}');
@@ -141,7 +141,7 @@ describe('Post Header', () => {
 
     it('should open RHS on click of comment icon and close on RHS\' close button', () => {
         // 2. Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit('/ad-1/channels/p2c');
 
         // 3. Post a message
         cy.postMessage('test for opening and closing RHS{enter}');

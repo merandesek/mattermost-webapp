@@ -9,7 +9,6 @@ import {
     unfavoriteChannel,
     updateChannelNotifyProps,
 } from 'mattermost-redux/actions/channels';
-import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
 import {
     getCurrentChannel,
@@ -32,15 +31,11 @@ import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {openModal, closeModal} from 'actions/views/modals';
 import {
-    showFlaggedPosts,
-    showPinnedPosts,
     showMentions,
     closeRightHandSide,
     updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
-import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
 
@@ -67,7 +62,6 @@ const mapStateToProps = (state) => {
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
-        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 };
 
@@ -75,12 +69,9 @@ const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
         favoriteChannel,
         unfavoriteChannel,
-        showFlaggedPosts,
-        showPinnedPosts,
         showMentions,
         closeRightHandSide,
         updateRhsState,
-        getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,
         openModal,

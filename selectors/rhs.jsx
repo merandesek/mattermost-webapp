@@ -62,14 +62,6 @@ export function getIsSearchingTerm(state) {
     return state.entities.search.isSearchingTerm;
 }
 
-export function getIsSearchingFlaggedPost(state) {
-    return state.views.rhs.isSearchingFlaggedPost;
-}
-
-export function getIsSearchingPinnedPost(state) {
-    return state.views.rhs.isSearchingPinnedPost;
-}
-
 export function getIsSearchGettingMore(state) {
     return state.entities.search.isSearchGettingMore;
 }

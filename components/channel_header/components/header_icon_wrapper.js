@@ -19,18 +19,6 @@ export default function HeaderIconWrapper({
 }) {
     function getTooltip(key) {
         const toolTips = {
-            flaggedPosts: {
-                class: 'text-nowrap',
-                id: 'flaggedTooltip',
-                messageID: t('channel_header.flagged'),
-                message: 'Flagged Posts',
-            },
-            pinnedPosts: {
-                class: '',
-                id: 'pinnedPostTooltip',
-                messageID: t('channel_header.pinnedPosts'),
-                message: 'Pinned Posts',
-            },
             recentMentions: {
                 class: '',
                 id: 'recentMentionsTooltip',

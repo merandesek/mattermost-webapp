@@ -7,7 +7,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
 import PermalinkView from 'components/permalink_view';
-import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 
 export default class CenterChannel extends React.PureComponent {
@@ -17,7 +16,6 @@ export default class CenterChannel extends React.PureComponent {
         lastChannelPath: PropTypes.string.isRequired,
         lhsOpen: PropTypes.bool.isRequired,
         rhsOpen: PropTypes.bool.isRequired,
-        rhsMenuOpen: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -42,14 +40,8 @@ export default class CenterChannel extends React.PureComponent {
                 className={classNames('inner-wrap', 'channel__wrap', {
                     'move--right': this.props.lhsOpen,
                     'move--left': this.props.rhsOpen,
-                    'move--left-small': this.props.rhsMenuOpen,
                 })}
             >
-                <div className='row header'>
-                    <div id='navbar'>
-                        <ChannelHeaderMobile/>
-                    </div>
-                </div>
                 <div className='row main'>
                     <Switch>
                         <Route
@@ -62,7 +54,7 @@ export default class CenterChannel extends React.PureComponent {
                             )}
                         />
                         <Route
-                            path={'/:team/:path(channels|messages)/:identifier'}
+                            path={'/:team/:path(channels)/:identifier'}
                             component={ChannelIdentifierRouter}
                         />
                         <Redirect to={lastChannelPath}/>

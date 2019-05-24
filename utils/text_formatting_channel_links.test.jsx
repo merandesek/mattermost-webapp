@@ -13,8 +13,8 @@ describe('TextFormatting.ChannelLinks', () => {
         );
 
         assert.equal(
-            TextFormatting.formatText('~town-square').trim(),
-            '<p>~town-square</p>'
+            TextFormatting.formatText('~p2c').trim(),
+            '<p>~p2c</p>'
         );
 
         done();
@@ -25,44 +25,44 @@ describe('TextFormatting.ChannelLinks', () => {
             delete window.basename;
         });
 
-        it('should link ~town-square', () => {
+        it('should link ~p2c', () => {
             assert.equal(
-                TextFormatting.formatText('~town-square', {
-                    channelNamesMap: {'town-square': {display_name: 'Town Square'}},
+                TextFormatting.formatText('~p2c', {
+                    channelNamesMap: {'p2c': {display_name: 'P2C'}},
                     team: {name: 'myteam'},
                 }).trim(),
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a></p>'
+                '<p><a class="mention-link" href="/myteam/channels/p2c" data-channel-mention="p2c">~P2C</a></p>'
             );
         });
 
-        it('should link ~town-square followed by a period', () => {
+        it('should link ~p2c followed by a period', () => {
             assert.equal(
-                TextFormatting.formatText('~town-square.', {
-                    channelNamesMap: {'town-square': {display_name: 'Town Square'}},
+                TextFormatting.formatText('~p2c.', {
+                    channelNamesMap: {'p2c': {display_name: 'P2C'}},
                     team: {name: 'myteam'},
                 }).trim(),
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a>.</p>'
+                '<p><a class="mention-link" href="/myteam/channels/p2c" data-channel-mention="p2c">~P2C</a>.</p>'
             );
         });
 
-        it('should link ~town-square, with display_name an HTML string', () => {
+        it('should link ~p2c, with display_name an HTML string', () => {
             assert.equal(
-                TextFormatting.formatText('~town-square', {
-                    channelNamesMap: {'town-square': {display_name: '<b>Reception</b>'}},
+                TextFormatting.formatText('~p2c', {
+                    channelNamesMap: {'p2c': {display_name: '<b>Reception</b>'}},
                     team: {name: 'myteam'},
                 }).trim(),
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
+                '<p><a class="mention-link" href="/myteam/channels/p2c" data-channel-mention="p2c">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
             );
         });
 
-        it('should link ~town-square, with a basename defined', () => {
+        it('should link ~p2c, with a basename defined', () => {
             window.basename = '/subpath';
             assert.equal(
-                TextFormatting.formatText('~town-square', {
-                    channelNamesMap: {'town-square': {display_name: '<b>Reception</b>'}},
+                TextFormatting.formatText('~p2c', {
+                    channelNamesMap: {'p2c': {display_name: '<b>Reception</b>'}},
                     team: {name: 'myteam'},
                 }).trim(),
-                '<p><a class="mention-link" href="/subpath/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
+                '<p><a class="mention-link" href="/subpath/myteam/channels/p2c" data-channel-mention="p2c">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
             );
         });
     });

@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 export default class NotLoggedIn extends React.PureComponent {
     static propTypes = {
@@ -31,66 +30,6 @@ export default class NotLoggedIn extends React.PureComponent {
     render() {
         const content = [];
 
-        if (this.props.config.AboutLink) {
-            content.push(
-                <a
-                    key='about_link'
-                    id='about_link'
-                    className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.config.AboutLink}
-                >
-                    <FormattedMessage id='web.footer.about'/>
-                </a>
-            );
-        }
-
-        if (this.props.config.PrivacyPolicyLink) {
-            content.push(
-                <a
-                    key='privacy_link'
-                    id='privacy_link'
-                    className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.config.PrivacyPolicyLink}
-                >
-                    <FormattedMessage id='web.footer.privacy'/>
-                </a>
-            );
-        }
-
-        if (this.props.config.TermsOfServiceLink) {
-            content.push(
-                <a
-                    key='terms_link'
-                    id='terms_link'
-                    className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.config.TermsOfServiceLink}
-                >
-                    <FormattedMessage id='web.footer.terms'/>
-                </a>
-            );
-        }
-
-        if (this.props.config.HelpLink) {
-            content.push(
-                <a
-                    key='help_link'
-                    id='help_link'
-                    className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.config.HelpLink}
-                >
-                    <FormattedMessage id='web.footer.help'/>
-                </a>
-            );
-        }
-
         return (
             <div className='inner-wrap'>
                 <div className='row content'>
@@ -106,7 +45,7 @@ export default class NotLoggedIn extends React.PureComponent {
                                 id='company_name'
                                 className='pull-right footer-site-name'
                             >
-                                {'Mattermost'}
+                                {'P2C'}
                             </span>
                         </div>
                         <div className='col-xs-12'>

@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelMembersModal from './channel_members_modal';
@@ -102,26 +101,5 @@ describe('components/ChannelMembersModal', () => {
             <ChannelMembersModal {...newProps}/>
         );
         expect(wrapper.find('#showInviteModal').length).toBe(0);
-    });
-
-    test('should call openModal with ChannelInviteModal when the add members link is clicked', () => {
-        const openModal = jest.fn();
-        const newProps = {
-            ...baseProps,
-            canManageChannelMembers: false,
-            actions: {
-                openModal,
-            },
-        };
-        const wrapper = shallow(
-            <ChannelMembersModal {...newProps}/>
-        );
-        expect(openModal).not.toHaveBeenCalled();
-        wrapper.instance().onAddNewMembersButton();
-        expect(openModal).toHaveBeenCalledWith({
-            modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogType: ChannelInviteModal,
-            dialogProps: {channel: newProps.channel},
-        });
     });
 });

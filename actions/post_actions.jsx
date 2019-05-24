@@ -11,7 +11,6 @@ import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
-import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -23,7 +22,6 @@ import {
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
-import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';
@@ -54,45 +52,9 @@ export function handleNewPost(post, msg) {
 
 const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
-export function flagPost(postId) {
-    return async (dispatch, getState) => {
-        await dispatch(PostActions.flagPost(postId));
-        const state = getState();
-        const rhsState = getRhsState(state);
-
-        if (rhsState === RHSStates.FLAG) {
-            addPostToSearchResults(postId, state, dispatch);
-        }
-
-        return {data: true};
-    };
-}
-
-export function unflagPost(postId) {
-    return async (dispatch, getState) => {
-        await dispatch(PostActions.unflagPost(postId));
-        const state = getState();
-        const rhsState = getRhsState(state);
-
-        if (rhsState === RHSStates.FLAG) {
-            removePostFromSearchResults(postId, state, dispatch);
-        }
-
-        return {data: true};
-    };
-}
 
 export function createPost(post, files) {
     return async (dispatch) => {
-        // parse message and emit emoji event
-        const emojis = post.message.match(EMOJI_PATTERN);
-        if (emojis) {
-            for (const emoji of emojis) {
-                const trimmed = emoji.substring(1, emoji.length - 1);
-                dispatch(addRecentEmoji(trimmed));
-            }
-        }
-
         let result;
         if (UserAgent.isIosClassic()) {
             result = await dispatch(PostActions.createPostImmediately(post, files));
@@ -119,13 +81,6 @@ export function storeDraft(channelId, draft) {
 export function storeCommentDraft(rootPostId, draft) {
     return (dispatch) => {
         dispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
-    };
-}
-
-export function addReaction(postId, emojiName) {
-    return (dispatch) => {
-        dispatch(PostActions.addReaction(postId, emojiName));
-        dispatch(addRecentEmoji(emojiName));
     };
 }
 

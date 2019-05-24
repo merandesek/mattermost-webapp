@@ -42,9 +42,9 @@ describe('System Console', () => {
                 should('be.equal', 200);
         });
 
-        // 6. User should get redirected to town square
+        // 6. User should get redirected to P2C
         cy.get('#adminConsoleWrapper').should('not.exist');
         cy.get('#postListContent').should('be.visible');
-        cy.url().should('include', 'town-square');
+        cy.url().should('include', 'p2c');
     });
 });
